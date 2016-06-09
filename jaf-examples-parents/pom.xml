@@ -17,12 +17,14 @@
 	
 	<modules>
 		<module>../jaf-examples-activemq</module>
-		<module>../jaf-examples-concurrent</module>
-		<module>../jaf-examples-redis</module>
 		<module>../jaf-examples-akka</module>
 		<module>../jaf-examples-concurrent</module>
+		<module>../jaf-examples-disruptor</module>
+		<module>../jaf-examples-dubbo</module>
 		<module>../jaf-examples-elasticsearch</module>
 		<module>../jaf-examples-nio</module>
+		<module>../jaf-examples-redis</module>
+		<module>../jaf-examples-solr</module>
 	</modules>
 
 	<dependencyManagement>
