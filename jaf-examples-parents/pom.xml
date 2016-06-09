@@ -16,9 +16,9 @@
 	</properties>
 	
 	<modules>
+		<module>../jaf-examples-activemq</module>
 		<module>../jaf-examples-concurrent</module>
 		<module>../jaf-examples-redis</module>
-		<module>../jaf-examples-activemq</module>
 		<module>../jaf-examples-akka</module>
 		<module>../jaf-examples-concurrent</module>
 		<module>../jaf-examples-elasticsearch</module>

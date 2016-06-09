@@ -1,6 +1,5 @@
 package com.jaf.examples.disruptor.simpledemo.event;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jaf.examples.disruptor.simpledemo.event.handler.HelloEventHandler;
