@@ -13,8 +13,10 @@ module.exports = function(done) {
 
     const User = new Schema({
     name: {type: String, unique: true},
+    email: {type: String},
     password: {type: String},
-    nickname: {type: String}
+    nickname: {type: String},
+    about: {type: String}
   });
 
   $.mongodb.model('User', User);

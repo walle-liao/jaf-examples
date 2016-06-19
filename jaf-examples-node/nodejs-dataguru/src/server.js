@@ -36,11 +36,13 @@ $.init.load(path.resolve(__dirname, 'init', 'mongodb.js'));
 // 加载 models
 $.init.load(path.resolve(__dirname, 'models'));
 
+// 加载 methods
+$.init.load(path.resolve(__dirname, 'methods'));
+
 // 初始化 express
 $.init.load(path.resolve(__dirname, 'init', 'express.js'));
 // 加载 route 模块
 $.init.load(path.resolve(__dirname, 'routes'));
-
 
 // 初始化
 $.init((err) => {
@@ -60,5 +62,6 @@ $.init((err) => {
   //   nickname: '测试用户001'
   // });
   // item.save(console.log);
+  // require('./test')
 
 });
