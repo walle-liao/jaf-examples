@@ -2,9 +2,11 @@ package com.jaf.examples.zookeeper;
 
 import java.io.IOException;
 
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 
 /**
@@ -18,7 +20,7 @@ public class WatcherTest {
 	
 	public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
 		ZooKeeper zk = new ZooKeeper(Config.ZK_SERVER, 5000, new SimpleWatcher());
-//		zk.create("/zk-examples/test1", "456".getBytes(), null, CreateMode.PERSISTENT);
+		zk.create("/zk-examples/test1", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		zk.getChildren("/zk-examples", true);
 		Thread.sleep(2000);
 	}
