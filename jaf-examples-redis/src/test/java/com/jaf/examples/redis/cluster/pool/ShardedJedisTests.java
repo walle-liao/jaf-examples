@@ -1,4 +1,4 @@
-package com.jaf.examples.redis.cluster;
+package com.jaf.examples.redis.cluster.pool;
 
 import org.junit.Assert;
 import org.junit.Test;

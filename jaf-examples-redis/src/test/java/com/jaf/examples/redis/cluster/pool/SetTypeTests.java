@@ -1,4 +1,4 @@
-package com.jaf.examples.redis.cluster;
+package com.jaf.examples.redis.cluster.pool;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

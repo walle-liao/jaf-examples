@@ -42,4 +42,19 @@
 	<bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
 	<bean id="kryoSerializer" class="com.jaf.examples.redis.jedis.spring.serializer.KryoSerializer"></bean>
 
+	<!-- redis cluster -->
+	<bean id="clusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		<constructor-arg>
+			<list>
+				<value>${spring.redis.cluster.nodes}</value>
+			</list>
+		</constructor-arg>
+		<property name="maxRedirects" value="${spring.redis.cluster.max-redirects}"></property>
+	</bean>
+	<bean id="jedisClusterConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg>
+			<ref bean="clusterConfig" />
+		</constructor-arg>
+	</bean>
+	
 </beans>
