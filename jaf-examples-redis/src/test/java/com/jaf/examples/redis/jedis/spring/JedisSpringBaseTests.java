@@ -2,7 +2,7 @@ package com.jaf.examples.redis.jedis.spring;
 
 import javax.annotation.Resource;
 
-import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,7 +16,8 @@ public abstract class JedisSpringBaseTests {
 	@Resource
 	protected RedisTemplate<String, Object> redisTemplate;
 	
-	@After
+	
+	@Before
 	public void flushdb() {
 		redisTemplate.getConnectionFactory().getConnection().flushAll();
 	}

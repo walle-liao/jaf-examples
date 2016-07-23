@@ -24,7 +24,7 @@ public class RedissonTestBase {
 		Config config = new Config();
 		config.useSingleServer()
 				.setAddress(TestConfig.HOST_NAME + ":" + TestConfig.PORT)
-				.setConnectionPoolSize(10);
+				.setConnectionPoolSize(100);
 		redisson = Redisson.create(config);
 	}
 

@@ -35,6 +35,11 @@
 	<!-- redisTemplate配置，redisTemplate是对Jedis的对redis操作的扩展，有更多的操作，封装使操作更便捷 -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="keySerializer" ref="kryoSerializer" />
+		<property name="valueSerializer" ref="kryoSerializer" />
 	</bean>
+
+	<bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+	<bean id="kryoSerializer" class="com.jaf.examples.redis.jedis.spring.serializer.KryoSerializer"></bean>
 
 </beans>
