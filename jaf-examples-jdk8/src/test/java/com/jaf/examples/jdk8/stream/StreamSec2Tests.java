@@ -1,12 +1,12 @@
 package com.jaf.examples.jdk8.stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -54,15 +54,14 @@ public class StreamSec2Tests {
 		// 注： Stream.generate(Math::random) 并不会立即无限创建随机数，因为 Stream 操作是延迟执行，只有碰到终止操作才会执行
 		// Stream.generate(Math::random).limit(100) 创建100个随机数，如果后面调用的不是 limit 方法，而是 count 方法，则会无限制创建下去
 		Stream<Double> randoms = Stream.generate(Math::random).limit(100);
-		Assert.assertTrue(randoms.count() == 100);
+		assertThat(randoms.count()).isEqualTo(100);
 		
 		// iterate 操作，第一个参数为种子值，第二个参数为一个操作代码/函数，表示将种子值进行该操作后得到第二个值，并且依次循环得到后面的值
 		// 1,2,3,4,.. 100
 		Stream<Integer> integers = Stream.iterate(1, x -> x + 1).limit(100);
 		Optional<Integer> max = integers.max(Integer::compareTo);
-		if(max.isPresent()) {
-			Assert.assertTrue(max.get() == 100);
-		}
+		assertThat(max.isPresent()).isTrue();
+		assertThat(max.get()).isEqualTo(100);
 	}
 	
 }

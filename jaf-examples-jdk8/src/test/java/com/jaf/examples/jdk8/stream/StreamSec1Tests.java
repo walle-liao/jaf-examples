@@ -1,12 +1,7 @@
 package com.jaf.examples.jdk8.stream;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -34,38 +29,54 @@ public class StreamSec1Tests {
 	public void countTest() {
 		// 统计 list 中的字符串长度大于 2 的元素的个数
 		// 与老的代码相比，这种方式更简洁，可读性更强
-		long count = words().stream().filter(s -> s.length() > 5).count();
+		long count = Supports.words().stream().filter(s -> s.length() > 5).count();
 		System.out.println(count);
 	}
 	
 	@Test
 	public void parallelCountTest() {
 		// 只需要将 stream 改成 parallelStream 方法，就可以让 Stream API 并行执行过滤和统计操作
-		long count = words().parallelStream().filter(s -> s.length() > 5).count();
+		long count = Supports.words().parallelStream().filter(s -> s.length() > 5).count();
 		System.out.println(count);
+		
+		// 或者可以这样  .stream().parallel() 将这个流转换成并行流
+		// 只要在终止方法之前调用了 parallel() 方法都可以将一个串行流转换成一个并行流
+		// Supports.words().stream().parallel().filter(s -> s.length() > 5).count();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void streamTest() {
+		Stream<String> stream = Supports.words().stream();
+		long count = stream.filter(s -> s.startsWith("a")).count();
+		System.out.println(count);
+		
+		// 当一个流对象碰到结束操作（如上面的 count 操作）后，这个流就不能再被使用了
+		// 这里将抛出 IllegalStateException
+		stream.forEach(System.out::println);
+		
+		// 如果想要实现上面的效果，既要打印出来每个元素（方便调试），又要进行统计
+		// 这里 foEach 和 count 两个操作都是终止操作，如何实现在一个流上面进行两个终止操作
+		// 可以使用 peek 方法，复制一个与原始流一样的流，见下面的 peekTest
+	}
+	
+	@Test
+	public void peekTest() {
+		Stream<String> stream = Supports.words().stream();
+		stream.filter(s -> s.startsWith("a")).peek(System.out::println).count();
+		
+		// 注意这两个的差别，上面的是对过滤后的流进行复制，而下面的是对过滤前的流进行复制
+		// stream.peek(System.out::println).filter(s -> s.startsWith("a")).count(); 
 	}
 	
 	@Test
 	public void countOldStyleTest() {
-		List<String> words = words();
+		List<String> words = Supports.words();
 		int count = 0;
 		for(String str : words) {
 			if(str.length() > 5)
 				count++;
 		}
 		System.out.println(count);
-	}
-	
-	private List<String> words() {
-		List<String> words = new ArrayList<String>();
-		try {
-			String pathName = this.getClass().getClassLoader().getResource("WindsOfWar.txt").getPath();
-			String contents = new String(Files.readAllBytes(Paths.get(pathName.replaceFirst("/", ""))), StandardCharsets.UTF_8);
-			words = Arrays.asList(contents.split("[\\P{L}]+"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return words;
 	}
 	
 }
