@@ -1,7 +1,11 @@
 package com.jaf.examples.jdk8.stream;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -26,31 +30,42 @@ import org.junit.Test;
  */
 public class StreamSec1Tests {
 	
-	private final List<String> strs = Collections.unmodifiableList(Arrays.asList("aaaa", "bb", "cccc"));
-	
 	@Test
 	public void countTest() {
 		// 统计 list 中的字符串长度大于 2 的元素的个数
 		// 与老的代码相比，这种方式更简洁，可读性更强
-		long count = strs.stream().filter(s -> s.length() > 2).count();
+		long count = words().stream().filter(s -> s.length() > 5).count();
 		System.out.println(count);
 	}
 	
 	@Test
 	public void parallelCountTest() {
 		// 只需要将 stream 改成 parallelStream 方法，就可以让 Stream API 并行执行过滤和统计操作
-		long count = strs.parallelStream().filter(s -> s.length() > 2).count();
+		long count = words().parallelStream().filter(s -> s.length() > 5).count();
 		System.out.println(count);
 	}
 	
 	@Test
 	public void countOldStyleTest() {
+		List<String> words = words();
 		int count = 0;
-		for(String str : strs) {
-			if(str.length() > 2)
+		for(String str : words) {
+			if(str.length() > 5)
 				count++;
 		}
 		System.out.println(count);
+	}
+	
+	private List<String> words() {
+		List<String> words = new ArrayList<String>();
+		try {
+			String pathName = this.getClass().getClassLoader().getResource("WindsOfWar.txt").getPath();
+			String contents = new String(Files.readAllBytes(Paths.get(pathName.replaceFirst("/", ""))), StandardCharsets.UTF_8);
+			words = Arrays.asList(contents.split("[\\P{L}]+"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return words;
 	}
 	
 }
