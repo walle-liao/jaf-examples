@@ -1,8 +1,6 @@
 package com.jaf.examples.redis.performance;
 
-import java.util.concurrent.CountDownLatch;
-
-import org.apache.log4j.Logger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * TODO
@@ -13,41 +11,21 @@ import org.apache.log4j.Logger;
  */
 class JobWrapper implements Runnable {
 	
-	private static final Logger LOG = Logger.getLogger(JobWrapper.class);
-	
 	private final Job job;
-	private final CountDownLatch latch;
-	private final long totalCount;
+	private final AtomicLong count;
 	
-	public JobWrapper(Job job, CountDownLatch latch, long totalCount) {
+	public JobWrapper(Job job, AtomicLong count) {
 		this.job = job;
-		this.latch = latch;
-		this.totalCount = totalCount;
+		this.count = count;
 	}
 	
 	@Override
 	public void run() {
 		String threadName = Thread.currentThread().getName();
-		try {
-			long startTime = System.currentTimeMillis();
-			long count = 0, st = startTime;
-			for (long i = 0; i < totalCount; i++) {
-				long currentTime = System.currentTimeMillis();
-				if (currentTime - startTime >= 1000) {
-					startTime = currentTime;
-					LOG.debug(new StringBuilder().append(threadName).append(" tps: ").append(i - count).toString());
-					count = i;
-				}
-				
-				job.execute(i, threadName);
-			}
-			
-			long endTime = System.currentTimeMillis();
-			LOG.debug(new StringBuilder().append(threadName).append(" exit. use total time : ").append(endTime - st));
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			latch.countDown();
+		
+		long i;
+		while((i = count.getAndDecrement()) > 0) {
+			job.execute(i, threadName);
 		}
 	}
 	

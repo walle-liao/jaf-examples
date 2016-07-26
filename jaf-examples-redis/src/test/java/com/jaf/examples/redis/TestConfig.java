@@ -9,7 +9,7 @@ package com.jaf.examples.redis;
  */
 public class TestConfig {
 	
-	public static final String HOST_NAME = "192.168.1.160";
+	public static final String HOST_NAME = "127.0.0.1";
 	public static final int PORT = 6379;
 
 }

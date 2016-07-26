@@ -25,7 +25,7 @@ public class RedissonPerformanceTests extends RedissonTestBase {
 				RBucket<String> bucket = redisson.getBucket(key);
 				bucket.set(threadName);
 			}
-		}, 20, 10000);
+		}, 20, 1000000);
 	}
 	
 }

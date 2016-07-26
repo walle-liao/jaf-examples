@@ -24,7 +24,7 @@ public class DefaultSerializerTests extends JedisSpringBaseTests {
 			public void execute(long index, String threadName) {
 				redisTemplate.opsForValue().set(threadName + "-Key-" + index, "threadNameValue-" + index);
 			}
-		}, 20, 10000);
+		}, 20, 2000000);
 	}
 	
 }

@@ -42,7 +42,7 @@
 	<bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
 	<bean id="kryoSerializer" class="com.jaf.examples.redis.jedis.spring.serializer.KryoSerializer"></bean>
 
-	<!-- redis cluster -->
+	<!-- redis cluster 
 	<bean id="clusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
 		<constructor-arg>
 			<list>
@@ -56,5 +56,6 @@
 			<ref bean="clusterConfig" />
 		</constructor-arg>
 	</bean>
+	-->
 	
 </beans>
