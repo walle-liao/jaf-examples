@@ -1,9 +1,12 @@
 package com.jaf.examples.jdk8.stream;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 /**
  * 1、Stream 的基本概念介绍及一个简单的列表过滤和统计的示例
@@ -27,6 +30,9 @@ public class StreamSec1Tests {
 	
 	@Test
 	public void countTest() {
+		List<Integer> nums = Lists.newArrayList(1, null, 3, 4, null, 6);
+		nums.stream().filter(x -> x != null).count();
+		
 		// 统计 list 中的字符串长度大于 2 的元素的个数
 		// 与老的代码相比，这种方式更简洁，可读性更强
 		long count = Supports.words().stream().filter(s -> s.length() > 5).count();
@@ -66,6 +72,16 @@ public class StreamSec1Tests {
 		
 		// 注意这两个的差别，上面的是对过滤后的流进行复制，而下面的是对过滤前的流进行复制
 		// stream.peek(System.out::println).filter(s -> s.startsWith("a")).count(); 
+	}
+	
+	@Test
+	public void streamSupplierTest() {
+		// 通过 lambda 表达式返回一个函数接口
+		Supplier<Stream<String>> streamSupplier = () -> Supports.words().stream().filter(s -> s.startsWith("a"));
+		
+		// 在这个函数接口上每次调用 get 方法，都将获得新的流
+		System.out.println(streamSupplier.get().count());;
+		System.out.println(streamSupplier.get().anyMatch(x -> x.equals("an")));;
 	}
 	
 	@Test
