@@ -64,4 +64,10 @@ public class StreamSec2Tests {
 		assertThat(max.get()).isEqualTo(100);
 	}
 	
+	
+	@Test
+	public void iterateTest() {
+		Stream.iterate(1, x -> x + 1).limit(10).forEach(System.out::println);
+	}
+	
 }
