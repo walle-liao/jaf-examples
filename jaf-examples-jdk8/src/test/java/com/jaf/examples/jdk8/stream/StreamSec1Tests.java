@@ -18,6 +18,10 @@ import org.junit.Test;
  * b) 在一个或多个步骤中，将初始 Stream 转换为另一个 Stream 的中间操作  <code> stream.filter(s -> s.length() > 2); </code>
  * c) 使用一个终止操作来产生一个结果，该操作会强制它之前的延迟操作立即执行。并且在这之后，该 Stream 就不会被使用了 <code> stream.count(); </code>
  * 
+ * Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的 Iterator。
+ * Stream 就如同一个迭代器（Iterator），单向，不可往复，数据只能遍历一次，遍历过一次后即用尽了，就好比流水从面前流过，一去不复返。
+ * 而和迭代器又不同的是，Stream 可以并行化操作，迭代器只能命令式地、串行化操作。
+ * Stream 的并行操作依赖于 Java7 中引入的 Fork/Join 框架来拆分任务和加速处理过程。
  * 
  * @author liaozhicheng.cn@163.com
  * @date 2016年7月17日
