@@ -1,10 +1,10 @@
 package com.jaf.examples.jdk8.lambda;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 /**
@@ -52,7 +52,7 @@ public class LambdaTests1 {
 	
 	@Test
 	public void orderString() {
-		List<String> strs = Arrays.asList("hell", "world", "hi");
+		List<String> strs = Lists.newArrayList("hell", "world", "hi");
 		Collections.sort(strs, new LengthComparator());
 		strs.forEach(System.out::println);
 	}
@@ -77,7 +77,7 @@ public class LambdaTests1 {
 	 */
 	@Test
 	public void orderStringWithLambda() {
-		List<String> strs = Arrays.asList("hell", "world", "hi");
+		List<String> strs = Lists.newArrayList("hell", "world", "hi");
 		Collections.sort(strs, (String o1, String o2) -> {
 			return Integer.compare(o1.length(), o2.length());
 		});
