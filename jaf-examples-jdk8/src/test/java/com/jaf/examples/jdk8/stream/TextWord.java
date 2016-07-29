@@ -15,12 +15,12 @@ import java.util.List;
  * @date 2016年7月26日
  * @since 1.0
  */
-public class Supports {
+public class TextWord {
 	
 	public static List<String> words() {
 		List<String> words = new ArrayList<String>();
 		try {
-			String pathName = Supports.class.getClassLoader().getResource("WindsOfWar.txt").getPath();
+			String pathName = TextWord.class.getClassLoader().getResource("WindsOfWar.txt").getPath();
 			String contents = new String(Files.readAllBytes(Paths.get(pathName.replaceFirst("/", ""))), StandardCharsets.UTF_8);
 			words = Arrays.asList(contents.split("[\\P{L}]+"));
 		} catch (IOException e) {

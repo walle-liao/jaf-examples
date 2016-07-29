@@ -9,6 +9,9 @@ import org.junit.Test;
 
 /**
  * 并行流
+ * parallelismTest 并行流的内部实现方式，对于同一个元素的所有 stream 操作总是在一个线程内完成
+ * parallelStreamStortTest 对于并行流的 sort 操作并不总是并行进行
+ * reduceTest 并行流的 reduce 操作是并行进行，基于 reduce 的 max, min 也是并行进行
  * 
  * @author liaozhicheng
  * @date 2016年7月29日
@@ -95,6 +98,24 @@ public class ParallelStreamTests {
 			System.out.format("comparate: x=%s; y=%s [%s]\n", x, y, Thread.currentThread().getName());
 			return x - y;
 		});
+	}
+	
+	
+	class Person {
+
+		String name;
+		int age;
+
+		public Person(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+
 	}
 	
 }

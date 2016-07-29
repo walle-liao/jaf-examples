@@ -5,17 +5,20 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 /**
- * collect 收集结果 toMap 将结果收集到 Map 中
+ * TODO
  * 
  * @author liaozhicheng.cn@163.com
- * @date 2016年7月26日
+ * @date 2016年7月28日
  * @since 1.0
  */
-public class StreamSec6Tests {
-	
+public class StreamAdvancedTests {
 	
 	@Test
-	public void test1() {
+	public void streamWorkTest() {
+		// 看这个示例先对流进行 filter 操作，再进行了一次 forEach
+		// 从代码上来看 filter 方法是需要对集合的整个元素进行一次迭代，forEach 方法又需要对 filter 之后的流进行一次全迭代
+		// 理论上不是要比自己写 for 循环，然后在循环里面处理所有逻辑要效率更低吗？（上面需要循环多次，这里只需要循环一次）
+		
 		// 该语句到底是下面哪种输出呢？
 		// d2, a2, b1, b3, c, d2, a2, b1, b3, c  循环多次，每次进行一个操作，效率更低
 		// d2, d2, a2, a2, b1, b1, b3, b3, c, c  一次循环，处理所有操作，效率更高
@@ -28,22 +31,7 @@ public class StreamSec6Tests {
 	}
 	
 	@Test
-	public void test2() {
-		// 因为 anyMatch 的影响，只要找到一个匹配的元素，整个循环立即就结束，不会循环所有的元素
-		// d2, D2, a2, A2
-		Stream.of("d2", "a2", "b1", "b3", "c")
-		    .map(s -> {
-		        System.out.println("map: " + s);
-		        return s.toUpperCase();
-		    })
-		    .anyMatch(s -> {
-		        System.out.println("anyMatch: " + s);
-		        return s.startsWith("A");
-		    });
-	}
-	
-	@Test
-	public void test3() {
+	public void mapFilterTest() {
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .map(s -> {
 		        System.out.println("map: " + s);
@@ -69,8 +57,9 @@ public class StreamSec6Tests {
 	}
 	
 	@Test
-	public void test4() {
-		// test3 + test4 说明当有多个中间操作时，应该讲 filter 这类操作放在前面，先把流的元素过滤出来
+	public void filterMapTest() {
+		// 结合着两个示例来看，第二个操作需要迭代处理元素的个数明显比第一个要少
+		// 所以当有多个中间操作时，应该将 filter 这类操作放在前面，先把流的元素过滤出来
 		
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .filter(s -> {
@@ -93,7 +82,8 @@ public class StreamSec6Tests {
 	}
 	
 	@Test
-	public void test5() {
+	public void sortFilterMapTest() {
+		// 先排序，后过滤（不建议这么做）
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .sorted((s1, s2) -> {
 		        System.out.printf("sort: %s; %s\n", s1, s2);
@@ -111,7 +101,7 @@ public class StreamSec6Tests {
 	}
 	
 	@Test
-	public void test6() {
+	public void filterSortMapTest() {
 		// 变换写法之后，排序一次都没有了，map 也只有一次
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .filter(s -> {

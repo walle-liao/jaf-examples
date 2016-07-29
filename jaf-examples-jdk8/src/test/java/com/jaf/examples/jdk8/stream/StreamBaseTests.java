@@ -6,8 +6,6 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
-
 /**
  * 1、Stream 的基本概念介绍及一个简单的列表过滤和统计的示例
  * 
@@ -30,33 +28,38 @@ import com.google.common.collect.Lists;
  * @date 2016年7月17日
  * @since 1.0
  */
-public class StreamSec1Tests {
+public class StreamBaseTests {
 	
 	@Test
-	public void countTest() {
-		List<Integer> nums = Lists.newArrayList(1, null, 3, 4, null, 6);
-		nums.stream().filter(x -> x != null).count();
-		
-		// 统计 list 中的字符串长度大于 2 的元素的个数
-		// 与老的代码相比，这种方式更简洁，可读性更强
-		long count = Supports.words().stream().filter(s -> s.length() > 5).count();
+	public void countWordTest() {
+		// 给定一个字符串列表，统计其中长度大于5的字符串个数
+		List<String> words = TextWord.words();
+		int count = 0;
+		for(String str : words) {
+			if(str.length() > 5)
+				count++;
+		}
 		System.out.println(count);
 	}
 	
 	@Test
-	public void parallelCountTest() {
-		// 只需要将 stream 改成 parallelStream 方法，就可以让 Stream API 并行执行过滤和统计操作
-		long count = Supports.words().parallelStream().filter(s -> s.length() > 5).count();
+	public void countWordWithStream() {
+		// 使用 java 8 的 stream 流的方式改写上面的示例，只用一行代码就搞定
+		long count = TextWord.words().stream().filter(s -> s.length() > 5).count();
 		System.out.println(count);
-		
-		// 或者可以这样  .stream().parallel() 将这个流转换成并行流
-		// 只要在终止方法之前调用了 parallel() 方法都可以将一个串行流转换成一个并行流
-		// Supports.words().stream().parallel().filter(s -> s.length() > 5).count();
+	}
+	
+	@Test
+	public void parallelCountWordTest() {
+		// 分分钟将上面的操作变成并行处理，充分利用多核cpu服务器的性能，而且完全不需要自己手写并发处理的代码
+		// 只需要将 stream 改成 parallelStream 方法，就可以让 Stream API 并行执行过滤和统计操作
+		long count = TextWord.words().parallelStream().filter(s -> s.length() > 5).count();
+		System.out.println(count);
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void streamTest() {
-		Stream<String> stream = Supports.words().stream();
+		Stream<String> stream = TextWord.words().stream();
 		long count = stream.filter(s -> s.startsWith("a")).count();
 		System.out.println(count);
 		
@@ -71,7 +74,7 @@ public class StreamSec1Tests {
 	
 	@Test
 	public void peekTest() {
-		Stream<String> stream = Supports.words().stream();
+		Stream<String> stream = TextWord.words().stream();
 		stream.filter(s -> s.startsWith("a")).peek(System.out::println).count();
 		
 		// 注意这两个的差别，上面的是对过滤后的流进行复制，而下面的是对过滤前的流进行复制
@@ -81,22 +84,11 @@ public class StreamSec1Tests {
 	@Test
 	public void streamSupplierTest() {
 		// 通过 lambda 表达式返回一个函数接口
-		Supplier<Stream<String>> streamSupplier = () -> Supports.words().stream().filter(s -> s.startsWith("a"));
+		Supplier<Stream<String>> streamSupplier = () -> TextWord.words().stream().filter(s -> s.startsWith("a"));
 		
 		// 在这个函数接口上每次调用 get 方法，都将获得新的流
 		System.out.println(streamSupplier.get().count());;
 		System.out.println(streamSupplier.get().anyMatch(x -> x.equals("an")));;
-	}
-	
-	@Test
-	public void countOldStyleTest() {
-		List<String> words = Supports.words();
-		int count = 0;
-		for(String str : words) {
-			if(str.length() > 5)
-				count++;
-		}
-		System.out.println(count);
 	}
 	
 }

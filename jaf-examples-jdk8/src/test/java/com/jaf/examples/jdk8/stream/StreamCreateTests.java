@@ -18,7 +18,7 @@ import org.junit.Test;
  * @date 2016年7月17日
  * @since 1.0
  */
-public class StreamSec2Tests {
+public class StreamCreateTests {
 	
 	@Test
 	public void createStreamTest() {
@@ -55,19 +55,17 @@ public class StreamSec2Tests {
 		// Stream.generate(Math::random).limit(100) 创建100个随机数，如果后面调用的不是 limit 方法，而是 count 方法，则会无限制创建下去
 		Stream<Double> randoms = Stream.generate(Math::random).limit(100);
 		assertThat(randoms.count()).isEqualTo(100);
-		
-		// iterate 操作，第一个参数为种子值，第二个参数为一个操作代码/函数，表示将种子值进行该操作后得到第二个值，并且依次循环得到后面的值
-		// 1,2,3,4,.. 100
-		Stream<Integer> integers = Stream.iterate(1, x -> x + 1).limit(100);
-		Optional<Integer> max = integers.max(Integer::compareTo);
-		assertThat(max.isPresent()).isTrue();
-		assertThat(max.get()).isEqualTo(100);
 	}
 	
 	
 	@Test
-	public void iterateTest() {
-		Stream.iterate(1, x -> x + 1).limit(10).forEach(System.out::println);
+	public void streamIterateTest() {
+		// iterate 操作，第一个参数为种子值，第二个参数为一个操作代码/函数，表示将种子值进行该操作后得到第二个值，并且依次循环得到后面的值
+		// 1,2,3,4,.. 100
+		Stream<Integer> integers = Stream.iterate(1, x -> x + 1).peek(System.out::println).limit(10);
+		Optional<Integer> max = integers.max(Integer::compareTo);
+		assertThat(max.isPresent()).isTrue();
+		assertThat(max.get()).isEqualTo(10);
 	}
 	
 }
