@@ -19,8 +19,6 @@ public class Java8DateTimeTests {
 		Instant now = Instant.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		System.out.println(formatter.format(now));
-		
-		
 	}
 	
 }

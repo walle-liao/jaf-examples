@@ -26,7 +26,14 @@ public class LambdaTests1 {
 	 */
 	@Test
 	public void doWork() throws InterruptedException {
-		Thread t1 = new Thread(new Worker());
+		Thread t1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for(int i = 0; i < 1000; i++) {
+					System.out.println(i);
+				}
+			}
+		});
 		t1.start();
 		t1.join();
 	}
@@ -53,7 +60,12 @@ public class LambdaTests1 {
 	@Test
 	public void orderString() {
 		List<String> strs = Lists.newArrayList("hell", "world", "hi");
-		Collections.sort(strs, new LengthComparator());
+		Collections.sort(strs, new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return Integer.compare(o1.length(), o2.length());
+			}
+		});
 		strs.forEach(System.out::println);
 	}
 	
@@ -83,11 +95,11 @@ public class LambdaTests1 {
 		});
 		
 		// 因为这里两个参数的类型可以自动推导所以这里参数的类型也可以省略
-//		Collections.sort(strs, (o1, o2) -> {
-//			return Integer.compare(o1.length(), o2.length());
-//		});
+		Collections.sort(strs, (o1, o2) -> {
+			return Integer.compare(o1.length(), o2.length());
+		});
 		
-//		Collections.sort(strs, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
+		Collections.sort(strs, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
 		
 		strs.forEach(System.out::println);
 	}
