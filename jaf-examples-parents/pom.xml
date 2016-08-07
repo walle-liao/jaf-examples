@@ -17,7 +17,6 @@
 	</properties>
 
 	<modules>
-		<module>../jaf-examples-activemq</module>
 		<module>../jaf-examples-akka</module>
 		<module>../jaf-examples-concurrent</module>
 		<module>../jaf-examples-disruptor</module>
@@ -25,7 +24,10 @@
 		<module>../jaf-examples-elasticsearch</module>
 		<module>../jaf-examples-nio</module>
 		<module>../jaf-examples-redis</module>
-		<module>../jaf-examples-solr</module>
+		<module>../jaf-examples-jdk8</module>
+		<module>../jaf-examples-ice</module>
+		<module>../jaf-examples-zookeeper</module>
+		<module>../jaf-examples-java8</module>
 	</modules>
 
 	<dependencyManagement>
@@ -81,17 +83,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>3.5.1</version>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>1.8</source>
+						<target>1.8</target>
 						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.3</version>
+					<version>2.7</version>
 					<configuration>
 						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>

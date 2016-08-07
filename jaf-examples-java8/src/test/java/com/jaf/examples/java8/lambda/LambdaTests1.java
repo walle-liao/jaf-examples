@@ -1,4 +1,4 @@
-package com.jaf.examples.jdk8.lambda;
+package com.jaf.examples.java8.lambda;
 
 import java.util.Collections;
 import java.util.Comparator;
