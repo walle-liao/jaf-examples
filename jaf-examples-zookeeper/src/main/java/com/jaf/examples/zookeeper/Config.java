@@ -9,6 +9,6 @@ package com.jaf.examples.zookeeper;
  */
 public class Config {
 	
-	public static final String ZK_SERVER = "127.0.0.1:2181";
+	public static final String ZK_SERVER = "192.168.1.131:2181";
 
 }
