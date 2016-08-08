@@ -1,11 +1,8 @@
 package com.jaf.examples.zookeeper.zk;
 
-import com.jaf.examples.zookeeper.Config;
+import com.jaf.examples.zookeeper.zk.support.CommonWatcher;
 import org.apache.zookeeper.*;
-import org.apache.zookeeper.data.Id;
-
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
+import org.junit.Test;
 
 import static com.jaf.examples.zookeeper.Config.DEFUALT_TIME_OUT;
 import static com.jaf.examples.zookeeper.Config.ZK_SERVER_CLUSTER;
@@ -25,20 +22,13 @@ import static com.jaf.examples.zookeeper.Config.ZK_SERVER_CLUSTER;
  *
  * @author liaozhicheng.cn@163.com
  */
-public class ZkCreateNode implements Watcher {
+public class ZkCreateNodeTests {
 
-    private static final CountDownLatch latch = new CountDownLatch(1);
-
-    public static void main(String[] args) throws Exception {
-        createNodeSync();
-//        createNodeAsync();
-
-    }
-
-
-    private static void createNodeSync() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper(ZK_SERVER_CLUSTER, DEFUALT_TIME_OUT, new ZkCreateNode());
-        latch.await();
+    @Test
+    public void createNodeSyncTest() throws Exception {
+        final CommonWatcher watcher = new CommonWatcher();
+        ZooKeeper zooKeeper = new ZooKeeper(ZK_SERVER_CLUSTER, DEFUALT_TIME_OUT, watcher);
+        watcher.await();
 
         // 创建临时节点，临时节点只在当前会发范围内有效，当会话结束时，该节点将不能访问
         String path = zooKeeper.create("/zookeeper-test", "init".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
@@ -62,9 +52,11 @@ public class ZkCreateNode implements Watcher {
     }
 
 
-    private static void createNodeAsync() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper(ZK_SERVER_CLUSTER, DEFUALT_TIME_OUT, new ZkCreateNode());
-        latch.countDown();
+    @Test
+    public void createNodeAsyncTest() throws Exception {
+        final CommonWatcher watcher = new CommonWatcher();
+        ZooKeeper zooKeeper = new ZooKeeper(ZK_SERVER_CLUSTER, DEFUALT_TIME_OUT, watcher);
+        watcher.await();
 
         String path = "/zk_node_create_async";
         // 异步的方式创建节点，节点创建成功之后会调用 MyStringCallback 中的回调方法
@@ -82,12 +74,6 @@ public class ZkCreateNode implements Watcher {
 
     }
 
-    @Override
-    public void process(WatchedEvent event) {
-        if(Event.KeeperState.SyncConnected == event.getState()) {
-            latch.countDown();
-        }
-    }
 
     static class MyStringCallback implements AsyncCallback.StringCallback {
 

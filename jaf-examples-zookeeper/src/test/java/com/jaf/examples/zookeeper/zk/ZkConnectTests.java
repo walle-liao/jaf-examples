@@ -13,12 +13,12 @@ import java.util.concurrent.CountDownLatch;
  *
  * @author liaozhicheng.cn@163.com
  */
-public class ZkConnectSimple implements Watcher {
+public class ZkConnectTests implements Watcher {
 
     private static CountDownLatch lantch = new CountDownLatch(1);
 
     public static void main(String[] args) throws IOException {
-        ZooKeeper zooKeeper = new ZooKeeper(Config.ZK_SERVER, 5000, new ZkConnectSimple());
+        ZooKeeper zooKeeper = new ZooKeeper(Config.ZK_SERVER, 5000, new ZkConnectTests());
         // 因为 zookeeper 的连接是异步的，所以这里的连接还没有完成
         System.out.println(zooKeeper.getState());  // CONNECTING
 
