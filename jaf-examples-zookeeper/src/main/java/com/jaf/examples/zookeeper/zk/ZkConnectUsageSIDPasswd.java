@@ -1,4 +1,4 @@
-package com.jaf.examples.zookeeper.base;
+package com.jaf.examples.zookeeper.zk;
 
 import com.jaf.examples.zookeeper.Config;
 import org.apache.zookeeper.WatchedEvent;
@@ -18,7 +18,7 @@ public class ZkConnectUsageSIDPasswd implements Watcher {
     private static final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        ZooKeeper zooKeeper = new ZooKeeper(Config.ZK_SERVER, 5000, new ZkConnectUsageSIDPasswd());
+        ZooKeeper zooKeeper = new ZooKeeper(Config.ZK_SERVER_CLUSTER, 5000, new ZkConnectUsageSIDPasswd());
         latch.await();
 
         long sessionId = zooKeeper.getSessionId();

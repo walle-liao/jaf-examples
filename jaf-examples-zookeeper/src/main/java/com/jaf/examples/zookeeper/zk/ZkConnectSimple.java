@@ -1,4 +1,4 @@
-package com.jaf.examples.zookeeper.base;
+package com.jaf.examples.zookeeper.zk;
 
 import com.jaf.examples.zookeeper.Config;
 import org.apache.zookeeper.WatchedEvent;
