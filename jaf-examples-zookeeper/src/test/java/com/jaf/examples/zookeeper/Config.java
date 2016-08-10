@@ -11,7 +11,8 @@ public class Config {
 	
 	public static final String ZK_SERVER = "192.168.1.131:2181";
 
-	public static final String ZK_SERVER_CLUSTER = "192.168.1.131:2181,192.168.1.131:2281,192.168.1.131:2381";
+//	public static final String ZK_SERVER_CLUSTER = "192.168.1.131:2181,192.168.1.131:2281,192.168.1.131:2381";
+	public static final String ZK_SERVER_CLUSTER = "127.0.0.1:2181";
 
     // 默认超时时间 5s
     public static final int DEFUALT_TIME_OUT = 5000;
