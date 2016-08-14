@@ -20,13 +20,6 @@ import org.junit.Test;
  * @author liaozhicheng.cn@163.com
  */
 public class WatcherTests {
-	
-	public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
-		ZooKeeper zk = new ZooKeeper(Config.ZK_SERVER, 5000, new SimpleWatcher(new CountDownLatch(1)));
-		zk.create("/zk-examples", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-		zk.getChildren("/zk-examples", true);
-		Thread.sleep(1000);
-	}
 
 	@Test
 	public void watcherSimpleTest() throws IOException, KeeperException, InterruptedException {
@@ -39,9 +32,9 @@ public class WatcherTests {
 		zk.create(path, "init".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
         zk.delete(path, -1);
 
-        String path2 = "/zk_exampels_delete";
+        String path2 = "/zk_examples_delete";
         zk.create(path2, "init".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-        zk.exists(path2, watcher);  // 给节点重新注册 watcher
+        zk.exists(path2, watcher);  // 重新注册 watcher
         zk.delete(path2, -1);
 	}
 
