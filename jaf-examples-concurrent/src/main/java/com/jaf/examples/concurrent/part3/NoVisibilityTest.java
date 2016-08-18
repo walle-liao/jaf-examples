@@ -31,7 +31,6 @@ public class NoVisibilityTest {
 		System.out.println("begin set ...");
 		number = 42;
 		ready = true;
-		
-		Thread.sleep(1000);
+		System.out.println(ready);
 	}
 }
