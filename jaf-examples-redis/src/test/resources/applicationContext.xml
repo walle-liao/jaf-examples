@@ -57,5 +57,21 @@
 		</constructor-arg>
 	</bean>
 	-->
+
+
+	<!-- ehcache config -->
+	<bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>
+	</bean>
+	<bean id="defaultCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref bean="defaultCacheManager" />
+		</property>
+		<property name="cacheName">
+			<value>DEFAULT_CACHE</value>
+		</property>
+	</bean>
 	
 </beans>
