@@ -1,6 +1,7 @@
 package com.jaf.examples.zookeeper.zk;
 
 import com.jaf.examples.zookeeper.BaseTests;
+import com.jaf.examples.zookeeper.zk.support.CommonWatcher;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
@@ -86,12 +87,27 @@ public class ZkDeleteNodeTests extends BaseTests {
         String path = "/zk_delete_node";
         createEphemeralNode(path);
 
+        // 使用错误的 version 值删除节点
         deleteNodeSync(path, 100);  //  KeeperErrorCode = BadVersion for /zk_delete_node
     }
 
-    @Test
-    public void deleteNotChildrenNodeTest() {
+    @Test(expected = KeeperException.class)
+    public void deleteNotChildrenNodeTest() throws KeeperException, InterruptedException {
+        final CommonWatcher watcher = new CommonWatcher();
+        String path = "/zk_delete_node";
+        zooKeeper.create(path, "init".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);  // 创建永久节点
+        zooKeeper.exists(path, watcher);
 
+        String childrenPath = path + "/children";
+        createEphemeralNode(childrenPath);
+
+        try {
+            // 删除一个非叶子节点
+            deleteNodeSync(path, -1);  // 抛出异常: KeeperErrorCode = Directory not empty for /zk_delete_node
+        } finally {
+            deleteNodeSync(childrenPath, -1);
+            deleteNodeSync(path, -1);
+        }
     }
 
     @Test

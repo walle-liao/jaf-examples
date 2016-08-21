@@ -30,6 +30,10 @@ public class CommonWatcher implements Watcher {
                 System.out.println("connection init");
             } else if(Event.EventType.NodeDeleted == event.getType()) {
                 System.out.println("node delete : " + event);
+            } else if(Event.EventType.NodeChildrenChanged == event.getType()) {
+                System.out.println("node children changed event : " + event.getPath());
+            } else if(Event.EventType.NodeDataChanged == event.getType()) {
+                System.out.println("node data changed event : " + event);
             }
         }
     }
