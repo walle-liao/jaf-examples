@@ -31,7 +31,7 @@ class MyPersonCaclByArrayTable extends AbstractCalcelator {
         LineIterator it = FileUtils.lineIterator(dbFile, "UTF-8");
         while(it.hasNext()) {
             String line = it.next();
-            Person person = parseSplit(line);
+            Person person = parseStringTokenizer(line);
             char fc = person.name.charAt(0);
             List<Person> persons = personsTable.get(person.age, fc);
             if(persons == null) {

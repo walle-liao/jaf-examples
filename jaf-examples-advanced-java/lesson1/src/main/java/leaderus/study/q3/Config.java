@@ -9,7 +9,7 @@ package leaderus.study.q3;
  */
 class Config {
 
-	static final int TOTAL_ROWS = 5000000;
+	static final int TOTAL_ROWS = 10000000;
 	static final String SPLIT_CHAR = ",";
 	static final String DB_FILE_NAME = "d:/temp/persondb.txt";
 	

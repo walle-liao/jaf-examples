@@ -46,5 +46,4 @@ public class HashTypeTests extends JedisSpringBaseTests {
 				Matchers.containsInAnyOrder("1", "zhangsan", "20", "new address"));
 	}
 	
-	
 }

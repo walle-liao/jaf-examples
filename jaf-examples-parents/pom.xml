@@ -28,7 +28,8 @@
 		<module>../jaf-examples-ice</module>
 		<module>../jaf-examples-zookeeper</module>
 		<module>../jaf-examples-java8</module>
-	</modules>
+        <module>../jaf-examples-advanced-java</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
