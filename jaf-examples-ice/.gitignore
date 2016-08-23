@@ -1,3 +1,5 @@
+/generated/
+
 # maven ignore
 target/
 *.jar
