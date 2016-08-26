@@ -1,5 +1,7 @@
 package com.jaf.examples.java8.lambda;
 
+import static java.util.Comparator.comparing;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -8,7 +10,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 /**
- * 1、lambda 表达式的格式3
+ * 1、lambda 表达式的格式
  * 2、使用 lambda 表达式改写函数式接口
  * 
  * @author liaozhicheng.cn@163.com
@@ -59,7 +61,7 @@ public class LambdaTests1 {
 	
 	@Test
 	public void orderString() {
-		List<String> strs = Lists.newArrayList("hell", "world", "hi");
+		List<String> strs = Lists.newArrayList("hello", "java", "and", "lambda");
 		Collections.sort(strs, new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
@@ -89,7 +91,9 @@ public class LambdaTests1 {
 	 */
 	@Test
 	public void orderStringWithLambda() {
-		List<String> strs = Lists.newArrayList("hell", "world", "hi");
+		
+		List<String> strs = Lists.newArrayList("hello", "java", "and", "lambda");
+		
 		Collections.sort(strs, (String o1, String o2) -> {
 			return Integer.compare(o1.length(), o2.length());
 		});
@@ -99,7 +103,15 @@ public class LambdaTests1 {
 			return Integer.compare(o1.length(), o2.length());
 		});
 		
+		// return 语句也不是必须的，不需要 return 是 {} 也可以省略
 		Collections.sort(strs, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
+		
+		// 使用 Comparator#comparing 来生成 Comparator
+		// 这个时候只有一个参数，参数的括号也可以省略
+		Collections.sort(strs, comparing(str -> str.length()));
+		
+		// 使用方法引用时，参数也不需要了
+		Collections.sort(strs, comparing(String::length));
 		
 		strs.forEach(System.out::println);
 	}

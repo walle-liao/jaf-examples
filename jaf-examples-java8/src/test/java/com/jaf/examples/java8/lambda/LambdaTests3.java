@@ -6,13 +6,13 @@ import org.junit.Test;
  * 1、lambda 表达式中变量的作用域
  * 2、Java 中的闭包
  * 3、lambda this 的指向（lambda 表单式的方法体与嵌套代码块有着相同的作用域）
+ * 相对于内部类，lambda表达式的语义就十分简单：它不会从超类（supertype）中继承任何变量名，也不会引入一个新的作用域。
  * 
  * @author liaozhicheng.cn@163.com
  * @date 2016年7月16日
  * @since 1.0
  */
 public class LambdaTests3 {
-	
 	
 	@Test
 	public void thisReferenceTest() throws InterruptedException {
