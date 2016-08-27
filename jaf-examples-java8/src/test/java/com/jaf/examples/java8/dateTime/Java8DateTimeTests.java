@@ -1,7 +1,6 @@
 package com.jaf.examples.java8.dateTime;
 
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 

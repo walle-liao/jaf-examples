@@ -25,6 +25,7 @@ public class JodaTimeTests {
 	
 	private static final String DEFAULT_DATE_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 	private static final String DATE_FORMATTER_YMD = "yyyy-MM-dd";
+	private static final String DATE_FORMATTER_YM = "yyyy-MM";
 	
 	@Test
 	public void baseTest() {
@@ -52,10 +53,17 @@ public class JodaTimeTests {
 		println(DateTime.now().dayOfWeek().withMinimumValue());
 		println(DateTime.now().dayOfWeek().withMaximumValue());
 
-		// 当前月的第一天，当前年最后一天
+		// 当前月的第一天，当前年最后一天，当前月第二周的最后一天(当前月第一天，往后推一周的最大日期)
 		println(DateTime.now().dayOfMonth().withMinimumValue());
 		println(DateTime.now().dayOfYear().withMaximumValue());
-
+		println(DateTime.now().withDayOfMonth(1).plusWeeks(1).dayOfWeek().withMaximumValue());
+		
+		// 根据字符串月份，获取该月份的最后一天
+		String month = "2016-08";
+		String monthMaxDate = DateTime.parse(month, DateTimeFormat.forPattern(DATE_FORMATTER_YM))
+				.dayOfMonth().withMaximumValue().toString(DATE_FORMATTER_YMD);
+		System.out.println("monthMaxDate : " + monthMaxDate);
+		
 		// 当前日期 2016-07-30，获取当前日期在3月份的日期，即 2016-03-30
 		println(DateTime.now().monthOfYear().setCopy(3));
 		println(DateTime.now().monthOfYear().setCopy(2));  // 2月没有30号，这里得到的是 2016-02-29
