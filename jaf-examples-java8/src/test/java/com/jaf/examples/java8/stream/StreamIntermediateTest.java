@@ -48,7 +48,7 @@ public class StreamIntermediateTest {
 		stream.forEach(System.out::println);
 		
 		// ['a', 'B', 'a', 'c', 'B', 'c'] 将后面的数组展开并合并到第一个数组中
-		Stream<Character> stream2 = strList.stream().flatMap(StreamIntermediateTest::characterStream);
+		Stream<Character> stream2 = strList.stream().flatMap(s -> characterStream(s));
 		stream2.forEach(System.out::println);
 	}
 	

@@ -87,8 +87,8 @@ public class StreamBaseTests {
 		Supplier<Stream<String>> streamSupplier = () -> TextWord.words().stream().filter(s -> s.startsWith("a"));
 		
 		// 在这个函数接口上每次调用 get 方法，都将获得新的流
-		System.out.println(streamSupplier.get().count());;
-		System.out.println(streamSupplier.get().anyMatch(x -> x.equals("an")));;
+		System.out.println(streamSupplier.get().count());
+		System.out.println(streamSupplier.get().anyMatch(x -> x.equals("an")));
 	}
 	
 }

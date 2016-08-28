@@ -38,7 +38,8 @@ public class CurrentNodes {
 
         private T[] datas;
 
-        private MyStack() {
+        @SuppressWarnings("unchecked")
+		private MyStack() {
             this.datas = (T[]) new Object[DEFUALT_SIZE];
         }
 
