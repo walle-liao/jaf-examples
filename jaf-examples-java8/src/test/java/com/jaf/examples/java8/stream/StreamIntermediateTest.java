@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -95,6 +96,22 @@ public class StreamIntermediateTest {
 			.filter(s -> s.length() > 12)
 			.sorted(Comparator.comparing(String::length))
 			.forEach(System.out::println);
+	}
+	
+	@Test
+	public void intermediateTest() {
+		Arrays.asList(0, 1, 5, null, 2, 7, 9, 5, 3, null, 5, 7, 4, 8, 6)
+				.stream()
+				.filter(i -> i != null)
+				.map(i -> "int: " + i)
+				.distinct()
+				.sorted()
+				.limit(10)
+				.skip(2)
+				.peek(s -> s.toUpperCase())
+				.parallel()
+				.collect(Collectors.toList())
+				.forEach(System.out::println);
 	}
 	
 }

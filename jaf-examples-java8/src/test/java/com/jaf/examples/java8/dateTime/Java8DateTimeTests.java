@@ -1,6 +1,8 @@
 package com.jaf.examples.java8.dateTime;
 
-import java.time.Instant;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 
@@ -14,10 +16,15 @@ import org.junit.Test;
 public class Java8DateTimeTests {
 	
 	@Test
-	public void baseTest() {
-		Instant now = Instant.now();
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		System.out.println(now);
+	public void baseTest() throws InterruptedException {
+		LocalDateTime begin = LocalDateTime.now();
+		System.out.println(begin.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		
+		Thread.sleep(1000);
+		LocalDateTime end = LocalDateTime.now();
+		
+		Duration d = Duration.between(begin, end);
+		System.out.println(d.getSeconds());
 	}
 	
 }

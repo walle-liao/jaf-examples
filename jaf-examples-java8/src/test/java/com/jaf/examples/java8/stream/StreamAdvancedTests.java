@@ -60,7 +60,6 @@ public class StreamAdvancedTests {
 	public void filterMapTest() {
 		// 结合着两个示例来看，第二个操作需要迭代处理元素的个数明显比第一个要少
 		// 所以当有多个中间操作时，应该将 filter 这类操作放在前面，先把流的元素过滤出来
-		
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .filter(s -> {
 		        System.out.println("filter: " + s);

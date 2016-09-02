@@ -7,7 +7,9 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -54,6 +56,8 @@ public class StreamTerminalTests {
 				.stream()
 				.filter(p -> p.age > 18)
 				.collect(Collectors.toList()); // Collectors.toSet()
+		
+		
 		numList.forEach(System.out::println);
 	}
 
@@ -64,6 +68,7 @@ public class StreamTerminalTests {
 				.stream()
 				.map(p -> p.name)
 				.collect(Collectors.joining(", "));
+		
 		System.out.println(names);
 	}
 	
@@ -105,6 +110,7 @@ public class StreamTerminalTests {
 		Map<Integer, List<Person>> ageGroupMap = Person.persons()
 				.stream()
 				.collect(Collectors.groupingBy(Person::getAge));  // 根据人员的年龄进行分组
+		
 		ageGroupMap.forEach((key, valList) -> {
 			String valListToString = valList.stream()
 					.map(Person::toString)
@@ -158,10 +164,28 @@ public class StreamTerminalTests {
 	@Test
 	public void findFirstTest() {
 		// findFirst: 它总是返回 Stream 的第一个元素，或者空。
-		Person.persons()
-			.stream()
-			.findFirst()
-			.ifPresent(System.out::println);
+		IntConsumer consumer = (int i) -> {
+			Person.persons()
+				.stream()
+				.parallel()
+				.findFirst()
+				.ifPresent(System.out::println);
+		};
+		
+		IntStream.range(0, 100).forEach(consumer);
+	}
+	
+	@Test
+	public void findAnyTest() {
+		IntConsumer consumer = (int i) -> {
+			Person.persons()
+				.stream()
+				.parallel()
+				.findAny()
+				.ifPresent(System.out::println);
+		};
+		
+		IntStream.range(0, 100).forEach(consumer);
 	}
 	
 	@Test
