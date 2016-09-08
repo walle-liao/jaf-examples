@@ -31,6 +31,7 @@ public class SalaryFileUtils {
 		
 		File file = new File(Config.DB_FILE_NAME);
 		FileUtils.writeLines(file, salaryLines);
+		
 	}
 	
 	private static String randomSalaryLine(int i) {

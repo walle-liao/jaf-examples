@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.jaf.examples.fullstack.leaderus.lesson1.Salary;
 import com.jaf.examples.fullstack.leaderus.lesson1.SalaryFileUtils;
@@ -24,7 +23,7 @@ public class StreamExamples {
 		List<Salary> list = SalaryFileUtils.readFromFile();
 		
 		long start = System.currentTimeMillis();
-		BiMap<String, LongSummaryStatistics> groupMap = list.parallelStream()
+		HashBiMap<String, LongSummaryStatistics> groupMap = list.parallelStream()
 			.filter(s -> s.getTotalIncome() > 100000)
 			.collect(
 				Collectors.groupingBy(
