@@ -17,17 +17,27 @@ import com.jaf.examples.fullstack.leaderus.lesson5.AtomicLongArrayCounter.IndexH
 public class MyCounterMain {
 	
 	public static void main(String[] args) {
-		final int threadCount = 10;
-		final MyCounter counter = new ReentrantLockCounter();
+		final int threadCount = 5, executeCount = 20;
+		
+		double elapsedTimeAvg = IntStream.range(0, executeCount).mapToLong(x -> {
+			return execute(threadCount);
+		}).average().getAsDouble();
+		
+		System.out.format("thread count : %s, execute count : %s, elapsed time average : %s ms \n", 
+				threadCount, executeCount, elapsedTimeAvg);
+	}
+	
+	private static long execute(int threadCount) {
+		final MyCounter counter = new LongAdderCounter();
 		
 		long start = System.currentTimeMillis();
 		
 		List<Thread> ts = IntStream.range(0, threadCount)
-		.mapToObj(index -> {
-			return new Thread(new CounterJob(counter, index));
-		})
-		.peek(Thread::start)
-		.collect(toList());
+			.mapToObj(index -> {
+				return new Thread(new CounterJob(counter, index));
+			})
+			.peek(Thread::start)
+			.collect(toList());
 		
 		ts.forEach(t -> {
 			try {
@@ -38,7 +48,9 @@ public class MyCounterMain {
 		});
 		
 		long elapsedTime = System.currentTimeMillis() - start;
-		System.out.format("elapsed time : %s ms, current value : %s", elapsedTime, counter.getCurValue());
+		System.out.format("thread count : %s, now count value : %s, elapsed time : %s \n", 
+				threadCount, counter.getCurValue(), elapsedTime);
+		return elapsedTime;
 	}
 	
 	private static class CounterJob implements Runnable {
@@ -53,7 +65,7 @@ public class MyCounterMain {
 		
 		@Override
 		public void run() {
-			if(counter instanceof AtomicLongArrayCounter) {
+			if(counter instanceof AtomicLongArrayCounter || counter instanceof LongArrayCounter) {
 				new IndexHolder(index);
 			}
 			
