@@ -24,7 +24,6 @@ public class Main {
 		
 		List<Thread> ts = IntStream.range(0, 20).mapToObj(x -> {
 			return new Thread(x % 2 == 0 ? new AppendJob(byteArray) : new PopJob(byteArray));
-//			return new Thread(new AppendJob(byteArray));
 		}).peek(Thread::start).collect(toList());
 		
 		ts.stream().forEach(t -> {
@@ -34,14 +33,6 @@ public class Main {
 				e.printStackTrace();
 			}
 		});
-		
-//		byteArray.append((byte) -5);
-//		byteArray.append((byte) 15);
-//		byteArray.append((byte) 25);
-//		byteArray.append((byte) 35);
-//		
-//		System.out.println(byteArray.poll());
-//		System.out.println(byteArray.poll());
 		
 		System.out.println(byteArray.getCurPos());
 		System.out.println(Arrays.toString(byteArray.getArray()));
@@ -58,14 +49,7 @@ public class Main {
 
 		@Override
 		public void run() {
-			IntStream.range(0, 1).forEach(x -> {
-				try {
-					Thread.sleep(10);
-					Thread.yield();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
+			IntStream.range(0, 20).forEach(x -> {
 				byte b = RandomUtils.nextBytes(1)[0];
 				byteArray.append(b);
 			});
@@ -83,13 +67,7 @@ public class Main {
 
 		@Override
 		public void run() {
-			IntStream.range(0, 1).forEach(x -> {
-				try {
-					Thread.sleep(10);
-					Thread.yield();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			IntStream.range(0, 20).forEach(x -> {
 				byteArray.poll();
 			});
 		}

@@ -17,7 +17,7 @@ import com.jaf.examples.fullstack.leaderus.lesson5.AtomicLongArrayCounter.IndexH
 public class MyCounterMain {
 	
 	public static void main(String[] args) {
-		final int threadCount = 5, executeCount = 20;
+		final int threadCount = 80, executeCount = 20;
 		
 		double elapsedTimeAvg = IntStream.range(0, executeCount).mapToLong(x -> {
 			return execute(threadCount);
@@ -28,7 +28,7 @@ public class MyCounterMain {
 	}
 	
 	private static long execute(int threadCount) {
-		final MyCounter counter = new LongAdderCounter();
+		final MyCounter counter = new AtomicLongArrayCounter(threadCount);
 		
 		long start = System.currentTimeMillis();
 		
@@ -65,7 +65,8 @@ public class MyCounterMain {
 		
 		@Override
 		public void run() {
-			if(counter instanceof AtomicLongArrayCounter || counter instanceof LongArrayCounter) {
+			if(counter instanceof AtomicLongArrayCounter 
+					|| counter instanceof LongArrayCounter) {
 				new IndexHolder(index);
 			}
 			

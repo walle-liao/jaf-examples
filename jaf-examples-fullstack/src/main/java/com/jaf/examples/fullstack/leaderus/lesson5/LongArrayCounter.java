@@ -21,6 +21,7 @@ public class LongArrayCounter implements MyCounter {
 
 	@Override
 	public void incr() {
+		// 每个线程只在一个指定的元素上累加
 		int index = IndexHolder.get();
 		long o = array[index];
 		array[index] = o + 1;

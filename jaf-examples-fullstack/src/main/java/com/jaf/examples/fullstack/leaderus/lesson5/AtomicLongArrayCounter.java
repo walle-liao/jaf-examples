@@ -27,7 +27,7 @@ public class AtomicLongArrayCounter implements MyCounter {
 	public long getCurValue() {
 		return IntStream.range(0, value.length())
 				.mapToLong(i -> value.get(i))
-				.reduce(0, (sum, value) -> sum + value);
+				.sum();
 	}
 
 	static class IndexHolder {

@@ -1,9 +1,5 @@
 package com.jaf.examples.fullstack.leaderus.lesson5.q4;
 
-import java.lang.reflect.Field;
-
-import sun.misc.Unsafe;
-
 /**
  * TODO
  * 
@@ -15,20 +11,8 @@ public class SimpleByteArray implements ByteArray {
 
 	private static final long serialVersionUID = -7535477948290106884L;
 
-	private static final Unsafe unsafe;
-	
 	private final byte[] array;
 	private volatile int curPos;
-	
-	static {
-		try {
-			Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
-			singleoneInstanceField.setAccessible(true);
-			unsafe = (Unsafe) singleoneInstanceField.get(null);
-		} catch (Exception e) {
-			throw new Error(e);
-		}
-	}
 	
 	public SimpleByteArray(int length) {
 		array = new byte[length];
@@ -67,11 +51,11 @@ public class SimpleByteArray implements ByteArray {
 			throw new IllegalArgumentException("getAndUpdate");
 		
 		byte[] bs = array;
-		unsafe.loadFence();
-		
 		byte old = bs[index];
+		UnsafeUtils.getUnsafe().loadFence();
+		
 		array[index] = update;
-		unsafe.storeFence();
+		UnsafeUtils.getUnsafe().storeFence();
 		return old;
 	}
 

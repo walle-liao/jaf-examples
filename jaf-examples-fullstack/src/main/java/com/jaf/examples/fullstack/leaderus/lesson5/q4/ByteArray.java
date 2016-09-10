@@ -10,15 +10,15 @@ import java.io.Serializable;
  * @since 1.0
  */
 public interface ByteArray extends Serializable {
-
-	int getCurPos();
-	
-	byte[] getArray();
 	
 	void append(byte b);
 	
 	byte poll();
 	
 	byte getAndUpdate(int index, byte update);
+	
+	int getCurPos();
+	
+	byte[] getArray();
 	
 }
