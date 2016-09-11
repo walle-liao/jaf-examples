@@ -31,7 +31,22 @@ public class StreamAdvancedTests {
 	}
 	
 	@Test
+	public void sortedTest() {
+		
+		Stream.of("a1", "b1", "c1", "a1")
+			.sorted((str1, str2) -> {
+				System.out.format("sorted, str1: %s, str2: %s \n", str1, str2);
+				return str1.compareTo(str2);
+			})
+			.forEach(str -> {
+				System.out.format("forEach, str: %s \n", str);
+			});
+		
+	}
+	
+	@Test
 	public void mapFilterTest() {
+		// filter 操作应该尽量出现在前面
 		Stream.of("d2", "a2", "b1", "b3", "c")
 		    .map(s -> {
 		        System.out.println("map: " + s);
@@ -124,6 +139,27 @@ public class StreamAdvancedTests {
 		// filter:  c
 		// map:     a2
 		// forEach: A2
+	}
+	
+	class MyStr {
+		
+		final String str;
+		
+		private MyStr(String str) {
+			this.str = str;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			System.out.format("thread: %s, mystr : %s", Thread.currentThread().getName(), this);
+			return this.str.equals(((MyStr) obj).str);
+		}
+
+		@Override
+		public String toString() {
+			return this.str;
+		}
+		
 	}
 	
 }

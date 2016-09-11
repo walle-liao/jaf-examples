@@ -1,4 +1,4 @@
-package leaderus.study.q2;
+package com.jaf.examples.expert.lesson1.q2;
 
 import java.util.Set;
 

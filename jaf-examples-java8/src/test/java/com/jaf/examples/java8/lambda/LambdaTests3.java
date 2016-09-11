@@ -25,7 +25,6 @@ public class LambdaTests3 {
 	class Application {
 		
 		public void doWork() {
-			
 			int num = 5;
 			
 			/**
@@ -38,7 +37,6 @@ public class LambdaTests3 {
 				System.out.println(Thread.currentThread().getName() + "," + this.toString() + "," + num);  // this is application
 			};
 			new Thread(r, "thread-name: lambda").start();
-			
 			
 			/**
 			 * 正常的匿名内部类的写法，此时的 this 很显然是指向 Runnable 对象

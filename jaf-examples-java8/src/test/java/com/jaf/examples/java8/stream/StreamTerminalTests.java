@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public class StreamTerminalTests {
 	
-	static final List<Integer> nums = Arrays.asList(1, 5, null, 3, 5, 10, 7, 11);
+	private static final List<Integer> nums = Arrays.asList(1, 5, null, 3, 5, 10, 7, 11);
 	
 	@Test
 	public void minTest() {
@@ -50,13 +50,95 @@ public class StreamTerminalTests {
 	}
 	
 	@Test
+	public void findFirstTest() {
+		// findFirst: 它总是返回 Stream 的第一个元素，或者空。
+		IntConsumer consumer = (int i) -> {
+			Person.persons()
+				.stream()
+				.parallel()
+				.findFirst()
+				.ifPresent(System.out::println);
+		};
+		
+		IntStream.range(0, 100).forEach(consumer);
+	}
+	
+	@Test
+	public void findAnyTest() {
+		IntConsumer consumer = (int i) -> {
+			Person.persons()
+				.stream()
+				.parallel()
+				.findAny()
+				.ifPresent(System.out::println);
+		};
+		
+		IntStream.range(0, 100).forEach(consumer);
+	}
+	
+	@Test
+	public void anyMatchTest() {
+		// anyMatch 只要找到一个匹配的元素循环就好立即返回
+		Person.persons()
+			.stream()
+			.anyMatch(p -> {
+				System.out.println(p);
+				return p.age > 18;
+			});
+	}
+
+	@Test
+	public void reduceSimpleTest() {
+		int sums = nums.stream()
+				.filter(n -> n != null)
+				.reduce(0, (sum, item) -> sum + item);
+		System.out.println(sums);
+	}
+	
+	@Test
+	public void reduceObjectTest() {
+		// 对象的列表，使用 reduce
+		Person result = Person.persons()
+				.stream()
+				.reduce(new Person("", 0), (p1, p2) -> {
+					p1.name += (p2.name + ",");
+					p1.age += p2.age;
+					return p1;
+				});
+		System.out.format("name=%s; age=%s \n", result.name, result.age);
+	}
+	
+	@Test
+	public void reduceMaxTest() {
+		// 使用 reduce 查找 age 最大的用户
+		Person.persons()
+		    .stream()
+		    .reduce((p1, p2) -> p1.age > p2.age ? p1 : p2)
+		    .ifPresent(System.out::println);    // Pamela
+	}
+	
+	@Test
+	public void reduceCombinerTest() {
+		Person.persons()
+			.parallelStream()
+			.reduce(0, (sum, p) -> {
+				System.out.format("accumulator, [%s], sum=%s, person=%s \n", 
+						Thread.currentThread().getName(), sum, p);
+				return sum += p.age;
+			}, (sum1, sum2) -> {
+				System.out.format("combiner, [%s], sum1=%s, sum2=%s \n", 
+						Thread.currentThread().getName(), sum1, sum2);
+				return sum1 + sum2;
+			});
+	}
+	
+	@Test
 	public void collectToListTest() {
 		// 收集 stream 处理后的结果到新的 List/Set
 		List<Person> numList = Person.persons()
 				.stream()
 				.filter(p -> p.age > 18)
 				.collect(Collectors.toList()); // Collectors.toSet()
-		
 		
 		numList.forEach(System.out::println);
 	}
@@ -129,74 +211,6 @@ public class StreamTerminalTests {
 		ageGroupSumMap.forEach((key, value) -> {
 			System.out.format("ageGroupSumMap item: { key: %s, value: %s }\n", key, value);
 		});
-	}
-
-	@Test
-	public void reduceSimpleTest() {
-		int sums = nums.stream()
-				.filter(n -> n != null)
-				.reduce(0, (sum, item) -> sum + item);
-		System.out.println(sums);
-	}
-	
-	@Test
-	public void reduceObjecTest() {
-		// 对象的列表，使用 reduce
-		Person result = Person.persons()
-				.stream()
-				.reduce(new Person("", 0), (p1, p2) -> {
-					p1.name += (p2.name + ",");
-					p1.age += p2.age;
-					return p1;
-				});
-		System.out.format("name=%s; age=%s \n", result.name, result.age);
-	}
-	
-	@Test
-	public void reduceMaxTest() {
-		// 使用 reduce 查找 age 最大的用户
-		Person.persons()
-		    .stream()
-		    .reduce((p1, p2) -> p1.age > p2.age ? p1 : p2)
-		    .ifPresent(System.out::println);    // Pamela
-	}
-	
-	@Test
-	public void findFirstTest() {
-		// findFirst: 它总是返回 Stream 的第一个元素，或者空。
-		IntConsumer consumer = (int i) -> {
-			Person.persons()
-				.stream()
-				.parallel()
-				.findFirst()
-				.ifPresent(System.out::println);
-		};
-		
-		IntStream.range(0, 100).forEach(consumer);
-	}
-	
-	@Test
-	public void findAnyTest() {
-		IntConsumer consumer = (int i) -> {
-			Person.persons()
-				.stream()
-				.parallel()
-				.findAny()
-				.ifPresent(System.out::println);
-		};
-		
-		IntStream.range(0, 100).forEach(consumer);
-	}
-	
-	@Test
-	public void anyMatchTest() {
-		// anyMatch 只要找到一个匹配的元素循环就好立即返回
-		Person.persons()
-			.stream()
-			.anyMatch(p -> {
-				System.out.println(p);
-				return p.age > 18;
-			});
 	}
 	
 	

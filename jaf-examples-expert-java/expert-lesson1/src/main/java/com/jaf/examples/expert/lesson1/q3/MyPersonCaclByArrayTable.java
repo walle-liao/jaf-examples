@@ -1,4 +1,4 @@
-package leaderus.study.q3;
+package com.jaf.examples.expert.lesson1.q3;
 
 import com.google.common.collect.ArrayTable;
 import org.apache.commons.io.FileUtils;

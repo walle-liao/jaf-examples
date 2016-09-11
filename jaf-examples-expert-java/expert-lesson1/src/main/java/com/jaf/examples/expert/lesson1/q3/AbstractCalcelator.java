@@ -1,4 +1,4 @@
-package leaderus.study.q3;
+package com.jaf.examples.expert.lesson1.q3;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
