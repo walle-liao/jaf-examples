@@ -1,5 +1,6 @@
 package com.jaf.examples.java8.stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
@@ -143,6 +144,18 @@ public class StreamTerminalTests {
 		numList.forEach(System.out::println);
 	}
 
+	@Test
+	public void parallelCollectTest() {
+		// ??? parallel stream -> toList, toMap 如何保证线程安全
+		List<Integer> list = IntStream.range(0, 10000)
+			.filter(i -> i % 2 == 0)
+			.parallel()
+			.mapToObj(Integer::new)
+			.collect(toList());
+		
+		System.out.println(list.size());
+	}
+	
 	@Test
 	public void collectJoinTest() {
 		// joining, 将 List 连接成字符串
