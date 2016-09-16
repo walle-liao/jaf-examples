@@ -1,7 +1,7 @@
 package com.jaf.examples.concurrent.part3;
 
 /**
- * TODO
+ * 关于可见性问题的一个示例
  * 
  * @author liaozhicheng.cn@163.com
  * @since 1.0
