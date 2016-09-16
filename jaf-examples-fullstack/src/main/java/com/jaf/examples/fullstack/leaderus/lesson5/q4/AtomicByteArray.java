@@ -71,14 +71,14 @@ public class AtomicByteArray implements ByteArray {
 	@Override
 	public void append(byte b) {
 		for(;;) {
-			int cp = curPos;
-			if(cp < 0 || cp >= array.length) {
+			int cp = curPos, al = array.length;
+			if(cp < 0 || cp >= al) {
 				continue ;
 			}
 			
 			if(arrayBusy == 0 && casArrayBusy()) {  // 使用 Volatile + CAS 模拟锁的效果
 				cp = curPos;  // 重新读取，并且校验
-				if(cp < 0 || cp >= array.length) {
+				if(cp < 0 || cp >= al) {
 					arrayBusy = 0;
 					continue ;
 				}
