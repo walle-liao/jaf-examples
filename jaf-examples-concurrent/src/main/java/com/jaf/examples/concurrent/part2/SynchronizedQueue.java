@@ -17,9 +17,7 @@ import java.util.Arrays;
 public class SynchronizedQueue<E> implements SimpleQueueDemo<E> {
 	
 	private Object[] array;
-	
 	private int index = 0;
-	
 	
 	public SynchronizedQueue(int size) {
 		array = new Object[size];

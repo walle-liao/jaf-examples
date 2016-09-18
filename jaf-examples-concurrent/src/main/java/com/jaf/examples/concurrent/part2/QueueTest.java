@@ -13,7 +13,8 @@ public class QueueTest {
 	
 	public static void main(String[] args) {
 //		SimpleQueueDemo<String> queue = new SynchronizedQueue<String>(5);
-		SimpleQueueDemo<String> queue = new ConditionQueue<String>(5);
+//		SimpleQueueDemo<String> queue = new ConditionQueue<String>(5);
+		SimpleQueueDemo<String> queue = new SemaphoreQueue<String>(10);
 		
 		Thread ct1 = new ConsumerThread("get1:", queue);
 		Thread ct2 = new ConsumerThread("get2:", queue);
@@ -51,12 +52,6 @@ public class QueueTest {
 		public void run() {
 			while (true) {
 				queue.take();
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 		
@@ -74,23 +69,20 @@ public class QueueTest {
 		
 		private final SimpleQueueDemo<String> queue;
 		
+		private final Random random;
+		
 		
 		private ProducerThread(String threadName, SimpleQueueDemo<String> queue) {
 			super.setName(threadName);
 			this.queue = queue;
+			random = new Random();
 		}
 		
 		
 		@Override
 		public void run() {
 			while (true) {
-				queue.put(Thread.currentThread().getName() + new Random().nextInt(10));
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				queue.put(Thread.currentThread().getName() + random.nextInt(1000));
 			}
 		}
 		

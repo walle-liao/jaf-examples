@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * TODO
+ * 基于 ReentrantLock 和 Condition 实现队列
  * 
  * @author liaozhicheng.cn@163.com
  * @since 1.0
@@ -13,13 +13,12 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConditionQueue<E> implements SimpleQueueDemo<E> {
 
 	private Object[] array;
-	
 	private int index = 0;
 	
-	private static ReentrantLock lock = new ReentrantLock();
+	private ReentrantLock lock = new ReentrantLock();
 	
-	private static Condition notEmpty = lock.newCondition();
-	private static Condition notFull = lock.newCondition();
+	private Condition notEmpty = lock.newCondition();
+	private Condition notFull = lock.newCondition();
 	
 	
 	public ConditionQueue(int size) {
@@ -78,7 +77,6 @@ public class ConditionQueue<E> implements SimpleQueueDemo<E> {
 		return null;
 	}
 	
-	
 	private boolean isFull() {
 		return index >= array.length;
 	}
@@ -86,7 +84,6 @@ public class ConditionQueue<E> implements SimpleQueueDemo<E> {
 	private boolean isEmpty() {
 		return index <= 0;
 	}
-
 
 	@Override
 	public String toString() {
