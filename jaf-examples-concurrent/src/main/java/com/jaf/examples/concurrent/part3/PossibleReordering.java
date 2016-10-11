@@ -17,7 +17,7 @@ public class PossibleReordering {
 	int a = 0, b = 0;
 	
 	public static void main(String[] args) {
-		IntStream.range(0, 50).forEach(x -> {
+		IntStream.range(0, 1000).forEach(x -> {
 			new PossibleReordering().execute();
 		});
 	}
