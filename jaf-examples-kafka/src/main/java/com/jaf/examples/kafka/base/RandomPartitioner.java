@@ -1,6 +1,9 @@
 package com.jaf.examples.kafka.base;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import kafka.producer.Partitioner;
+import kafka.utils.VerifiableProperties;
 
 /**
  * TODO
@@ -10,10 +13,15 @@ import kafka.producer.Partitioner;
  * @since 1.0
  */
 public class RandomPartitioner implements Partitioner {
+	
+	// 必须保留该构造方法
+	public RandomPartitioner(VerifiableProperties verifiableProperties) {}
 
 	@Override
-	public int partition(Object arg0, int arg1) {
-		return 0;
+	public int partition(Object key, int numPartitions) {
+		int index = ThreadLocalRandom.current().nextInt(numPartitions);
+		System.out.format("random partition instance : %s, random index : %s \n", this, index);
+		return index;
 	}
 	
 }
