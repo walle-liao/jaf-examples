@@ -1,0 +1,21 @@
+package com.jaf.examples.kafka.base;
+
+
+/**
+ * TODO
+ * 
+ * @author liaozhicheng.cn@163.com
+ * @date 2016年10月15日
+ * @since 1.0
+ */
+public final class Constants {
+	
+	public static final String ZK_SERVER = "192.168.1.186:2181";
+	
+	public static final String BROKER_LIST = "192.168.1.186:9092";
+	
+	public static final String TOPIC_NAME = "test2";
+	
+	private Constants() { }
+
+}
