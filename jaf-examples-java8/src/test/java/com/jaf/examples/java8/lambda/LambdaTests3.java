@@ -44,7 +44,7 @@ public class LambdaTests3 {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					int num = 6;  // 内部类其实也会捕获闭合作用域中的值，例如将这段注释掉，这里的 num=5（这其实就是 java 中的闭包）
+					int num = 6;  // 内部类其实也会捕获闭合作用域中的值，例如将这段注释掉，这里的 num=5
 					System.out.println(Thread.currentThread().getName() + "," + this.toString() + "," + num);  // this is runnable
 				}
 				

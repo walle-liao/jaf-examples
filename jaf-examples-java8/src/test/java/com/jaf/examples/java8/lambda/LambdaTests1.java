@@ -91,7 +91,6 @@ public class LambdaTests1 {
 	 */
 	@Test
 	public void orderStringWithLambda() {
-		
 		List<String> strs = Lists.newArrayList("hello", "java", "and", "lambda");
 		
 		Collections.sort(strs, (String o1, String o2) -> {

@@ -24,11 +24,11 @@ public class OtherTests {
 		
 		Files.list(Paths.get("d:/temp")).forEach(System.out::println);
 		
-		try (Stream<String> lines = Files.lines(Paths.get("d:/temp/a.txt"))) {
+		try (Stream<String> lines = Files.lines(Paths.get("d:/temp/data.txt"))) {
 			lines.forEach(System.out::println);
 		}  // 这里会首先关闭流，然后关闭文件
 		
-		String x = "", y = "";
+		String x = "1", y = "2";
 		Logger logger = Logger.getGlobal();
 		logger.warning("x: " + x + ", y : " + y);
 		

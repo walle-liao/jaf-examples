@@ -1,8 +1,10 @@
 package com.jaf.examples.java8.stream;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
+import java.util.stream.IntStream;
 
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -76,7 +78,8 @@ public class ParallelStreamTests {
 		    new Person("David", 12));
 
 		int ageSum = persons
-		    .parallelStream()
+		    .stream()
+		    .parallel()
 		    .reduce(0, (sum, p) -> {
 		            System.out.format("accumulator: sum=%s; person=%s [%s]\n",
 		                sum, p, Thread.currentThread().getName());
@@ -98,6 +101,25 @@ public class ParallelStreamTests {
 		});
 	}
 
+	@Test
+	public void parallelCollectTest() {
+		List<Integer> list = IntStream.range(0, 100)
+			.filter(i -> i % 2 == 0)
+			.parallel()
+			.mapToObj(Integer::new)
+			.collect(() -> {
+//				System.out.println("new List thread: " + Thread.currentThread().getName());
+				return new ArrayList<Integer>();
+			}, (l, i) -> {
+				System.out.format("add thread: %s, list: %s, value: %s \n", Thread.currentThread().getName(), l, i);
+				l.add(i);
+			}, (l1, l2) -> {
+//				System.out.format("add all thread: %s, list1: %s, list2: %s \n", Thread.currentThread().getName(), l1, l2);
+				l1.addAll(l2);
+			});
+		
+		System.out.println(list.size());
+	}
 
 	private class Person {
 

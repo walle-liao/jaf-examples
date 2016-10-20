@@ -1,6 +1,5 @@
 package com.jaf.examples.java8.stream;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
@@ -61,7 +60,7 @@ public class StreamTerminalTests {
 				.ifPresent(System.out::println);
 		};
 		
-		IntStream.range(0, 100).forEach(consumer);
+		IntStream.range(0, 10).forEach(consumer);
 	}
 	
 	@Test
@@ -119,21 +118,6 @@ public class StreamTerminalTests {
 	}
 	
 	@Test
-	public void reduceCombinerTest() {
-		Person.persons()
-			.parallelStream()
-			.reduce(0, (sum, p) -> {
-				System.out.format("accumulator, [%s], sum=%s, person=%s \n", 
-						Thread.currentThread().getName(), sum, p);
-				return sum += p.age;
-			}, (sum1, sum2) -> {
-				System.out.format("combiner, [%s], sum1=%s, sum2=%s \n", 
-						Thread.currentThread().getName(), sum1, sum2);
-				return sum1 + sum2;
-			});
-	}
-	
-	@Test
 	public void collectToListTest() {
 		// 收集 stream 处理后的结果到新的 List/Set
 		List<Person> numList = Person.persons()
@@ -144,18 +128,6 @@ public class StreamTerminalTests {
 		numList.forEach(System.out::println);
 	}
 
-	@Test
-	public void parallelCollectTest() {
-		// ??? parallel stream -> toList, toMap 如何保证线程安全
-		List<Integer> list = IntStream.range(0, 10000)
-			.filter(i -> i % 2 == 0)
-			.parallel()
-			.mapToObj(Integer::new)
-			.collect(toList());
-		
-		System.out.println(list.size());
-	}
-	
 	@Test
 	public void collectJoinTest() {
 		// joining, 将 List 连接成字符串

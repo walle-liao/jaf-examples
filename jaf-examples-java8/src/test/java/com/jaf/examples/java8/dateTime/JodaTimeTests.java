@@ -114,4 +114,9 @@ public class JodaTimeTests {
 		return dayList.build();
 	}
 	
+	@Test
+	public void test1() {
+		System.out.println(LocalDate.now().plusMonths(2).dayOfMonth().setCopy(20).toString(DATE_FORMATTER_YMD));
+	}
+	
 }
