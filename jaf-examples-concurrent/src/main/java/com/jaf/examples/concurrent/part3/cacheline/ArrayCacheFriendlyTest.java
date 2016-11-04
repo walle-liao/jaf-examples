@@ -1,4 +1,4 @@
-package com.jaf.examples.concurrent.part3;
+package com.jaf.examples.concurrent.part3.cacheline;
 
 import java.util.stream.IntStream;
 
