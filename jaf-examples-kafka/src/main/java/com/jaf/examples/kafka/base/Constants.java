@@ -10,11 +10,11 @@ package com.jaf.examples.kafka.base;
  */
 public final class Constants {
 	
-	public static final String ZK_SERVER = "192.168.1.186:2181";
+	public static final String ZK_SERVER = "192.168.1.186:2181,192.168.1.187:2181,192.168.1.188:2181/kafka";
 	
 	public static final String BROKER_LIST = "192.168.1.186:9092,192.168.1.187:9092,192.168.1.188:9092";
 	
-	public static final String TOPIC_NAME = "test3";
+	public static final String TOPIC_NAME = "test1";
 	
 	private Constants() { }
 

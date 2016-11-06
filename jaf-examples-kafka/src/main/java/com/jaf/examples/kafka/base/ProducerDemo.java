@@ -24,9 +24,9 @@ public class ProducerDemo {
 	public static void main(String[] args) throws InterruptedException {
 //		syncProducerSendOneMessage();
 //		asyncProducerSendOneMessage();
-		syncProducerBatchSend();
+//		syncProducerBatchSend();
 //		asyncProducerBatchSend();
-//		sendMulitThread();
+		sendMulitThread();
 	}
 	
 	
@@ -59,10 +59,13 @@ public class ProducerDemo {
 	}
 	
 	public static void sendMulitThread() {
-		Producer<String, String> producer = buildAsyncProducer();
-		List<Thread> produceThreads = IntStream.range(0, 50).mapToObj(i -> {
+		Producer<String, String> producer = buildSyncProducer();
+		List<Thread> produceThreads = IntStream.range(0, 20).mapToObj(i -> {
 			return new Thread(() -> {
-				sendMessage(producer, Constants.TOPIC_NAME, i + "", Thread.currentThread().getName() + " message");
+				final String threadName = Thread.currentThread().getName();
+				for(int j = 0; j < 50; j++) {
+					sendMessage(producer, Constants.TOPIC_NAME, j + "", threadName + " message " + j);
+				}
 			});
 		}).peek(Thread::start).collect(toList());
 		
@@ -83,7 +86,8 @@ public class ProducerDemo {
 		props.put("serializer.class", StringEncoder.class.getName());
 		props.put("partitioner.class", HashPartitioner.class.getName());
 		props.put("producer.type", "sync");
-		props.put("request.required.acks", "-1");  // 这个参数很重要，如果不设置默认为0，也就是异步producer的方式，消息发送之后不会等待leader的ack
+		// 这个参数很重要，如果不设置默认为0，也就是异步producer的方式，消息发送之后不会等待leader的ack
+		props.put("request.required.acks", "-1");
 		
 		ProducerConfig config = new ProducerConfig(props);
 		Producer<String, String> produce = new Producer<>(config);

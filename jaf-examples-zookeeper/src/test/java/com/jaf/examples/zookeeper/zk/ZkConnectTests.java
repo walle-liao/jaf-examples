@@ -17,7 +17,7 @@ import com.jaf.examples.zookeeper.zk.support.CommonWatcher;
  * @author liaozhicheng.cn@163.com
  */
 public class ZkConnectTests {
-
+	
     @Test
     public void connectionSimple() throws IOException, InterruptedException {
     	final CommonWatcher watch = new CommonWatcher();
