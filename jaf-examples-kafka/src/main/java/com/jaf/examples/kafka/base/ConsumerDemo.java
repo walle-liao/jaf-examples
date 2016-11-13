@@ -22,37 +22,42 @@ import kafka.message.MessageAndMetadata;
 public class ConsumerDemo {
 	
 	public static void main(String[] args) {
-		String groupId = "group1";
-		String consumerId = "consumer1";
-		
+//		args = new String[] { Constants.ZK_SERVER, Constants.TOPIC_NAME, "group1", "consumer3" };
+		if (args == null || args.length != 4) {
+			System.err.println("Usage:\n\tjava -jar kafka_consumer.jar ${zookeeper_list} ${topic_name} ${group_name} ${consumer_id}");
+			System.exit(1);
+		}
+		String zk = args[0];
+		String topic = args[1];
+		String groupid = args[2];
+		String consumerid = args[3];
 		Properties props = new Properties();
-		props.put("zookeeper.connect", Constants.ZK_SERVER);
-		props.put("group.id", groupId);
-		props.put("autooffset.reset", "largest");
-		props.put("autocommit.enable", "true");
+		props.put("zookeeper.connect", zk);
+		props.put("group.id", groupid);
 		props.put("client.id", "test");
-		props.put("auto.commit.interval.ms", "1000");
-		
+		props.put("consumer.id", consumerid);
+		props.put("auto.offset.reset", "smallest");
+		props.put("auto.commit.enable", "true");
+		props.put("auto.commit.interval.ms", "100");
+
 		ConsumerConfig consumerConfig = new ConsumerConfig(props);
 		ConsumerConnector consumerConnector = Consumer.createJavaConsumerConnector(consumerConfig);
-		
+
 		Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
-		topicCountMap.put(Constants.TOPIC_NAME, 1);
-		Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumerConnector
-				.createMessageStreams(topicCountMap);
-		
-		KafkaStream<byte[], byte[]> stream1 = consumerMap.get(Constants.TOPIC_NAME).get(0);
-		ConsumerIterator<byte[], byte[]> it1 = stream1.iterator();
-		while (it1.hasNext()) {
-			MessageAndMetadata<byte[], byte[]> messageAndMetadata = it1.next();
+		topicCountMap.put(topic, 1);
+		Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumerConnector.createMessageStreams(topicCountMap);
+
+		KafkaStream<byte[], byte[]> stream1 = consumerMap.get(topic).get(0);
+		ConsumerIterator<byte[], byte[]> interator = stream1.iterator();
+		while (interator.hasNext()) {
+			MessageAndMetadata<byte[], byte[]> messageAndMetadata = interator.next();
 			String message = String.format(
-					"Consumer ID:%s, Topic:%s, GroupID:%s, PartitionID:%s, Offset:%s, Message Key:%s, Message Payload: %s \n",
-					consumerId, messageAndMetadata.topic(), groupId, messageAndMetadata.partition(),
-					messageAndMetadata.offset(), new String(messageAndMetadata.key()),
+					"Topic:%s, GroupID:%s, Consumer ID:%s, PartitionID:%s, Offset:%s, Message Key:%s, Message Payload: %s",
+					messageAndMetadata.topic(), groupid, consumerid, messageAndMetadata.partition(),
+					messageAndMetadata.offset(), new String(messageAndMetadata.key() != null ? messageAndMetadata.key() : "".getBytes()),
 					new String(messageAndMetadata.message()));
 			System.out.println(message);
 		}
-		
 	}
 	
 }
