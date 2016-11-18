@@ -32,8 +32,8 @@ public class LambdaTests3 {
 			 * 因此此处 lambda 表达式中的 this 指向的是 doWork 方法中的 this，即 Application 对象
 			 */
 			Runnable r = () -> {
-				// int num = 5;  // 错误，因为 lambda 表达式和嵌套的代码块有着相同的作用域，在同一个作用域下面不能声明两个同名的变量
-				// num = 6;   // 错误，被 lambda 表达式捕获的变量值不可以更改
+//				 int num = 5;  // 错误，因为 lambda 表达式和嵌套的代码块有着相同的作用域，在同一个作用域下面不能声明两个同名的变量
+//				 num = 6;   // 错误，被 lambda 表达式捕获的变量值不可以更改
 				System.out.println(Thread.currentThread().getName() + "," + this.toString() + "," + num);  // this is application
 			};
 			new Thread(r, "thread-name: lambda").start();
@@ -44,7 +44,7 @@ public class LambdaTests3 {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					int num = 6;  // 内部类其实也会捕获闭合作用域中的值，例如将这段注释掉，这里的 num=5
+//					int num = 6;  // 内部类其实也会捕获闭合作用域中的值，例如将这段注释掉，这里的 num=5
 					System.out.println(Thread.currentThread().getName() + "," + this.toString() + "," + num);  // this is runnable
 				}
 				

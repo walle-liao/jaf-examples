@@ -5,8 +5,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -114,9 +117,23 @@ public class JodaTimeTests {
 		return dayList.build();
 	}
 	
+	
 	@Test
-	public void test1() {
-		System.out.println(LocalDate.now().plusMonths(2).dayOfMonth().setCopy(20).toString(DATE_FORMATTER_YMD));
+	public void intervalTest() {
+		// 获取当前日期到本月最后一天还剩多少天
+		LocalDate now = LocalDate.now();
+		LocalDate lastDayOfMonth = LocalDate.now().dayOfMonth().withMaximumValue();
+		System.out.println(Days.daysBetween(now, lastDayOfMonth).getDays());
+		
+		System.out.println(DateTime.now().toString(DEFAULT_DATE_FORMATTER));
+		System.out.println(DateTime.now().dayOfMonth().withMaximumValue().toString(DEFAULT_DATE_FORMATTER));
+		Interval interval = new Interval(DateTime.now(), DateTime.now().dayOfMonth().withMaximumValue());
+		Period p = interval.toPeriod();
+		
+		System.out.println(interval.toDuration().getStandardDays());
+		
+		System.out.format("时间相差：%s 年, %s 月, %s 天, %s 时, %s 分, %s 秒", 
+				p.getYears(), p.getMonths(), p.getDays(), p.getHours(), p.getMinutes(), p.getSeconds());
 	}
 	
 }

@@ -108,7 +108,7 @@ public class ParallelStreamTests {
 			.parallel()
 			.mapToObj(Integer::new)
 			.collect(() -> {
-//				System.out.println("new List thread: " + Thread.currentThread().getName());
+				System.out.println("new List thread: " + Thread.currentThread().getName());
 				return new ArrayList<Integer>();
 			}, (l, i) -> {
 				System.out.format("add thread: %s, list: %s, value: %s \n", Thread.currentThread().getName(), l, i);
