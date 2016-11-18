@@ -24,9 +24,9 @@ public class ProducerDemo {
 	public static void main(String[] args) throws InterruptedException {
 //		syncProducerSendOneMessage();
 //		asyncProducerSendOneMessage();
-//		syncProducerBatchSend();
+		syncProducerBatchSend();
 //		asyncProducerBatchSend();
-		sendMulitThread();
+//		sendMulitThread();
 	}
 	
 	
