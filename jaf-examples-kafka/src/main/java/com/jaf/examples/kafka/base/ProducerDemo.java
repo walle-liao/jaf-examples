@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import kafka.javaapi.producer.Producer;
@@ -24,9 +25,9 @@ public class ProducerDemo {
 	public static void main(String[] args) throws InterruptedException {
 //		syncProducerSendOneMessage();
 //		asyncProducerSendOneMessage();
-		syncProducerBatchSend();
+//		syncProducerBatchSend();
 //		asyncProducerBatchSend();
-//		sendMulitThread();
+		sendMulitThread();
 	}
 	
 	
@@ -44,7 +45,7 @@ public class ProducerDemo {
 	
 	public static void syncProducerBatchSend() {
 		Producer<String, String> producer = buildSyncProducer();
-		IntStream.range(0, 20).forEach(x -> {
+		IntStream.range(0, 9).forEach(x -> {
 			sendMessage(producer, Constants.TOPIC_NAME, x + "", "message : syncProducerBatchSend " + x);
 		});
 		producer.close();
@@ -60,11 +61,12 @@ public class ProducerDemo {
 	
 	public static void sendMulitThread() {
 		Producer<String, String> producer = buildSyncProducer();
+		Random random = new Random();
 		List<Thread> produceThreads = IntStream.range(0, 20).mapToObj(i -> {
 			return new Thread(() -> {
 				final String threadName = Thread.currentThread().getName();
-				for(int j = 0; j < 50; j++) {
-					sendMessage(producer, Constants.TOPIC_NAME, j + "", threadName + " message " + j);
+				for(int j = 0; j < 10000; j++) {
+					sendMessage(producer, Constants.TOPIC_NAME, random.nextInt(10000) + "", threadName + " message " + j);
 				}
 			});
 		}).peek(Thread::start).collect(toList());

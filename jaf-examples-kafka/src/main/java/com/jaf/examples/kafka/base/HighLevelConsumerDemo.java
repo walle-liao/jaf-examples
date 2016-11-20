@@ -19,10 +19,10 @@ import kafka.message.MessageAndMetadata;
  * @date 2016年10月15日
  * @since 1.0
  */
-public class ConsumerDemo {
+public class HighLevelConsumerDemo {
 	
 	public static void main(String[] args) {
-//		args = new String[] { Constants.ZK_SERVER, Constants.TOPIC_NAME, "group1", "consumer3" };
+		args = new String[] { Constants.ZK_SERVER, Constants.TOPIC_NAME, "group1", "consumer1" };
 		if (args == null || args.length != 4) {
 			System.err.println("Usage:\n\tjava -jar kafka_consumer.jar ${zookeeper_list} ${topic_name} ${group_name} ${consumer_id}");
 			System.exit(1);
@@ -38,7 +38,7 @@ public class ConsumerDemo {
 		props.put("consumer.id", consumerid);
 		props.put("auto.offset.reset", "smallest");
 		props.put("auto.commit.enable", "true");
-		props.put("auto.commit.interval.ms", "100");
+		props.put("auto.commit.interval.ms", "60000");
 
 		ConsumerConfig consumerConfig = new ConsumerConfig(props);
 		ConsumerConnector consumerConnector = Consumer.createJavaConsumerConnector(consumerConfig);
