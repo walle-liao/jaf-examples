@@ -39,15 +39,14 @@ public class MyObj extends MyParentObj {
 	
 	private static void printAllFieldOffset(Class<?> clazz) {
 		Unsafe unsafe = UnsafeUtils.getUnsafe();
-		Map<Long, Field> map = Arrays.asList(ReflectUtils.getAllDeclaredFields(clazz))
-				.stream()
+		Map<Long, Field> map = Arrays.stream(ReflectUtils.getAllDeclaredFields(clazz))
 				.collect(toMap(
-						f -> Long.valueOf(unsafe.objectFieldOffset(f)), 
+						unsafe::objectFieldOffset,
 						Function.identity(), 
-						(a, b) -> {return a;}, 
+						(a, b) -> a,
 						TreeMap::new
 				));
-		map.entrySet().stream().forEach(e -> {
+		map.entrySet().forEach(e -> {
 			Field field = e.getValue();
 			String className = field.getDeclaringClass().getSimpleName();
 			System.out.println(className + "." +  field.getName() + " : " + e.getKey());
