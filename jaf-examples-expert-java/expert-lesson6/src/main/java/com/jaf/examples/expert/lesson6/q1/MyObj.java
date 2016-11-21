@@ -34,7 +34,7 @@ public class MyObj extends MyParentObj {
 	boolean mboolean2;
 	
 	public static void main(String[] args) throws NoSuchFieldException, SecurityException {
-		printAllFieldOffset(Test.class);
+		printAllFieldOffset(MyObj.class);
 	}
 	
 	private static void printAllFieldOffset(Class<?> clazz) {
