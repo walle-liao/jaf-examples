@@ -1,7 +1,7 @@
 package com.jaf.examples.java8.dateTime;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -84,12 +84,6 @@ public class JodaTimeTests {
 		Duration duration = new Duration(DateTime.now(), lastDayOfYear);
 		System.out.println("到年底还有多少天：" + duration.getStandardDays());
 		System.out.println("到年底还有多少个小时：" + duration.getStandardHours());
-
-		// joda time 和 jdk 中的 Date 转换
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DateTime.now().plusDays(1).toDate());
-		SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_FORMATTER);
-		System.out.println(sdf.format(calendar.getTime()));
 	}
 	
 	private void println(DateTime dateTime) {
@@ -134,6 +128,22 @@ public class JodaTimeTests {
 		
 		System.out.format("时间相差：%s 年, %s 月, %s 天, %s 时, %s 分, %s 秒", 
 				p.getYears(), p.getMonths(), p.getDays(), p.getHours(), p.getMinutes(), p.getSeconds());
+	}
+	
+	@Test
+	public void dateConvert() {
+		// joda date time -> java.util.Date
+		Date date = DateTime.now().plusDays(1).toDate();
+		SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_FORMATTER);
+		System.out.println(sdf.format(date));
+		
+		// java.util.Date -> joda date
+		Date d1 = new Date();
+		LocalDate ld = new LocalDate(d1);
+		System.out.println(ld.toString(DATE_FORMATTER_YMD));
+		
+		DateTime dateTime = new DateTime(d1);
+		System.out.println(dateTime.toString(DEFAULT_DATE_FORMATTER));
 	}
 	
 }
