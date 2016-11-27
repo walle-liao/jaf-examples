@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>net.bramp.unsafe</groupId>
-            <artifactId>unsafe-helper</artifactId>
+            <artifactId>unsafe-collection</artifactId>
             <version>1.0</version>
         </dependency>
 
@@ -31,15 +31,5 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
 </project>

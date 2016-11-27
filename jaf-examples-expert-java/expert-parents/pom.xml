@@ -9,6 +9,7 @@
 		<module>../expert-common</module>
 		<module>../expert-lesson1</module>
 		<module>../expert-lesson6</module>
+		<module>../expert-lesson7</module>
 	</modules>
 
 	<parent>

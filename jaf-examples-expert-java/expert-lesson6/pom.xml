@@ -10,8 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>expert-lesson6</artifactId>
 
-
-	<dependencies>
+    <dependencies>
 		<dependency>
 			<groupId>com.jaf.examples</groupId>
 			<artifactId>expert-common</artifactId>
