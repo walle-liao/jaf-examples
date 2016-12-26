@@ -3,6 +3,7 @@ package com.jaf.examples.redis.jedis.spring;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -32,6 +33,19 @@ public class ListTypeTests extends JedisSpringBaseTests {
 		
 		assertThat(redisTemplate.opsForList().leftPop("testPop")).isEqualTo("value3");
 		assertThat(redisTemplate.opsForList().size("testPop")).isEqualTo(2);
+	}
+	
+	@Test
+	public void testExpired() throws InterruptedException {
+		redisTemplate.opsForList().rightPushAll("key1", Arrays.asList("v1", "v2"));
+		redisTemplate.expire("key1", 500, TimeUnit.MILLISECONDS);
+		
+		MatcherAssert.assertThat(redisTemplate.opsForList().range("key1", 0, -1), 
+				Matchers.contains("v1", "v2"));
+		
+		Thread.sleep(1000);
+		
+		assertThat(redisTemplate.hasKey("key1")).isFalse();
 	}
 	
 }
