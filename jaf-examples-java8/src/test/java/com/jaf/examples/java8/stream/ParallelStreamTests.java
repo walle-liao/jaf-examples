@@ -25,6 +25,7 @@ public class ParallelStreamTests {
 	public void parallelismTest() {
 		// 并行流默认采用的 ForkJoinPool 实现
 		ForkJoinPool commonPool = ForkJoinPool.commonPool();
+		
 		System.out.println(commonPool.getParallelism());    // 7
 		
 		// 默认的并行级别等于机器可用的cpu数量

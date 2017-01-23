@@ -25,7 +25,7 @@ public class ArrayCacheFriendlyTest {
 		fillArray();
 		
 		long begin = System.currentTimeMillis();
-		System.out.println(sumRowFirst());
+		System.out.println(sumColumnFirst());
 		System.out.println(System.currentTimeMillis() - begin);
 	}
 	

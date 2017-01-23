@@ -1,6 +1,8 @@
 package com.jaf.examples.httpserver.simple;
 
-import static com.jaf.examples.httpserver.common.Constants.*;
+import static com.jaf.examples.httpserver.common.Constants.REQUEST_HEAD_FIRST_LINE_PATTERN;
+import static com.jaf.examples.httpserver.common.Constants.SERVER_PORT;
+import static com.jaf.examples.httpserver.common.Constants.SPLIT;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

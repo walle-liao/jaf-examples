@@ -71,7 +71,9 @@ public abstract class Request {
 		String[] urls = url.split("\\?");
 		this.resourceUri = urls[0];
 		if(urls.length > 1) {
-			Map<String, String> params = Stream.of(urls[1].split("&")).map(p -> p.split("=")).collect(toMap(x -> x[0], x -> x[1]));
+			Map<String, String> params = Stream.of(urls[1].split("&"))
+					.map(p -> p.split("="))
+					.collect(toMap(x -> x[0], x -> x[1]));
 			this.params.putAll(params);
 		}
 		return new SimpleResponse(this);

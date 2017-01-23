@@ -25,7 +25,7 @@ public class CacheLineTest {
 		long begin = System.currentTimeMillis();
 		
 		List<Thread> tl = IntStream.range(0, 8).mapToObj(x -> {
-			return new Thread(new UpdateArrayIndex(x * 16));  // *1 或者 *16 (64byte的cache line正好是16个int)
+			return new Thread(new UpdateArrayIndex(x * 1));  // *1 或者 *16 (64byte的cache line正好是16个int)
 		}).peek(Thread::start).collect(toList());
 		
 		tl.stream().forEach(t -> {
@@ -44,7 +44,7 @@ public class CacheLineTest {
 	private static class UpdateArrayIndex implements Runnable {
 
 		private final int index;
-		private final Random random; 
+		private final Random random;
 		private UpdateArrayIndex(int index) {
 			this.index = index;
 			this.random = new Random();
