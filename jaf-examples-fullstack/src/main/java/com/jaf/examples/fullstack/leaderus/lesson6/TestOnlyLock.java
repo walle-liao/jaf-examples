@@ -59,23 +59,30 @@ public class TestOnlyLock {
 				if(TestOnlyLock.isEmpty())
 					continue ;
 				
+				// 4 2 6
 				lock.lock();
+				System.out.println(Thread.currentThread().getName() + " get");
 				try {
 					if(TestOnlyLock.isEmpty()) {
-						continue;
+//						lock.unlock();
+						continue ;
 					}
 					
-					if (TestOnlyLock.datas.isEmpty()) {
-						System.out.println("impossible empty !! " + Thread.currentThread().getName());
-						System.exit(-1);
-					}
+					System.out.println(Thread.currentThread().getName() + " begin get ====");
+					
+//					if (TestOnlyLock.isEmpty()) {
+//						System.out.println("impossible empty !! " + Thread.currentThread().getName());
+//						System.exit(-1);
+//					}
 					
 					TestOnlyLock.datas.forEach(s -> System.out.println(s));
 					TestOnlyLock.datas.clear();
 				} finally {
+					System.out.println("empty ...");
 					lock.unlock();
 				}
 			}
+			
 		}
 
 	}
@@ -89,23 +96,26 @@ public class TestOnlyLock {
 		public void run() {
 			while (true) {
 				if(TestOnlyLock.isFull())
-					continue;
+					continue ;
 				
 				lock.lock();
+				System.out.println(Thread.currentThread().getName() + " set");
 				try {
 					if(TestOnlyLock.isFull()) {
-						continue;
+//						lock.unlock();
+						continue ;
 					}
 					
-					System.out.println(Thread.currentThread().getName() + " wait finished");
+					System.out.println(Thread.currentThread().getName() + " begin add");
 
-					if (TestOnlyLock.datas.size() >= 1) {
-						System.out.println("impossible full !! " + Thread.currentThread().getName());
-						System.exit(-1);
-					}
+//					if (TestOnlyLock.datas.size() >= 1) {
+//						System.out.println("impossible full !! " + Thread.currentThread().getName());
+//						System.exit(-1);
+//					}
 
 					IntStream.range(0, 1).forEach(i -> TestOnlyLock.datas.add(i + " data"));
 				} finally {
+					System.out.println("set empty ...");
 					lock.unlock();
 				}
 			}
