@@ -23,16 +23,16 @@ public class ArrayCacheFriendlyTest {
 	
 	public static void main(String[] args) {
 		fillArray();
-		
+
 		long begin = System.currentTimeMillis();
 		System.out.println(sumColumnFirst());
-		System.out.println(System.currentTimeMillis() - begin);
+		System.out.printf("elapsed time: %s ms", System.currentTimeMillis() - begin);
 	}
 	
 	private static void fillArray() {
 		IntStream.range(0, LENGTH).forEach(i -> {
 			IntStream.range(0, LENGTH).forEach(j -> {
-				array[i][j] = (byte) (j & 0x7f);
+				array[i][j] = 1;
 			});
 		});
 	}

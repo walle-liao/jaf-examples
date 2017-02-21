@@ -1,5 +1,8 @@
 package com.jaf.examples.concurrent.part3.cacheline;
 
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
 /**
  * TODO
  * 
@@ -25,9 +28,9 @@ public class FalseSharing implements Runnable {
 	}
 
 	public static void main(final String[] args) throws Exception {
-		long start = System.nanoTime();
+		long start = System.currentTimeMillis();
 		runTest();
-		System.out.println("duration = " + (System.nanoTime() - start));
+		System.out.printf("elapsed time: %s ms", System.currentTimeMillis() - start);
 	}
 
 	private static void runTest() throws InterruptedException {
@@ -47,10 +50,7 @@ public class FalseSharing implements Runnable {
 	}
 
 	public void run() {
-		long i = ITERATIONS + 1;
-		while (0 != --i) {
-			longs[arrayIndex].value = i;
-		}
+		LongStream.range(0, ITERATIONS).forEach(i -> longs[arrayIndex].value = i);
 	}
 	
 	public final static class VolatileLong {
@@ -58,7 +58,6 @@ public class FalseSharing implements Runnable {
 	}
 
 	// long padding避免false sharing
-	// 按理说jdk7以后long padding应该被优化掉了，但是从测试结果看padding仍然起作用
 	public final static class VolatileLong2 {
 		volatile long p0, p1, p2, p3, p4, p5, p6;
 		public volatile long value = 0L;

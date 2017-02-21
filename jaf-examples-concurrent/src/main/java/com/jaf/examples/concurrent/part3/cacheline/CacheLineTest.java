@@ -21,11 +21,10 @@ public class CacheLineTest {
 	private static int[] arrays = new int[200];
 	
 	public static void main(String[] args) {
-		
 		long begin = System.currentTimeMillis();
 		
 		List<Thread> tl = IntStream.range(0, 8).mapToObj(x -> {
-			return new Thread(new UpdateArrayIndex(x * 1));  // *1 或者 *16 (64byte的cache line正好是16个int)
+			return new Thread(new UpdateArrayIndex(x * 16));  // *1 或者 *16 (64byte的cache line正好是16个int)
 		}).peek(Thread::start).collect(toList());
 		
 		tl.stream().forEach(t -> {
@@ -36,8 +35,8 @@ public class CacheLineTest {
 			}
 		});
 		
-		System.out.println("elasped time : " + (System.currentTimeMillis() - begin));
-		System.out.println(Arrays.toString(arrays));
+		System.out.printf("elapsed time: %s ms ", System.currentTimeMillis() - begin);
+//		System.out.println(Arrays.toString(arrays));
 	}
 	
 	
