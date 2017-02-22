@@ -14,24 +14,21 @@ public final class UnsafeUtils {
 	private static final Unsafe U;
 	
 	static {
-//		try {
-//			Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
-//			singleoneInstanceField.setAccessible(true);
-//			U = (Unsafe) singleoneInstanceField.get(null);
-//		} catch (Exception e) {
-//			throw new Error(e);
-//		}
-		U = getUnsafe();
+		U = getU();
 	}
 	
-	
+
+	public static Unsafe getUnsafe() {
+	    return U;
+    }
+
 	/**
 	 * netty 里面的做法
 	 * 
 	 * @see io.netty.util.internal.chmv8.ForkJoinPool
 	 * @return
 	 */
-	private static sun.misc.Unsafe getUnsafe() {
+	private static sun.misc.Unsafe getU() {
         try {
             return sun.misc.Unsafe.getUnsafe();
         } catch (SecurityException tryReflectionInstead) {}
