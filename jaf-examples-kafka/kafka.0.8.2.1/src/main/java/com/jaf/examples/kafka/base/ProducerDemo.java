@@ -26,8 +26,8 @@ public class ProducerDemo {
 //		syncProducerSendOneMessage();
 //		asyncProducerSendOneMessage();
 //		syncProducerBatchSend();
-//		asyncProducerBatchSend();
-		sendMulitThread();
+		asyncProducerBatchSend();
+//		sendMulitThread();
 	}
 	
 	

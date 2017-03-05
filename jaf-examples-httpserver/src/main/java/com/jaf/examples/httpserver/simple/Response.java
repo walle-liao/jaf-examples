@@ -1,16 +1,15 @@
-package com.jaf.examples.httpserver;
+package com.jaf.examples.httpserver.simple;
 
-import static com.jaf.examples.httpserver.common.Constants.SPLIT;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-import com.jaf.examples.httpserver.simple.SimpleHttpServer;
+import static com.jaf.examples.httpserver.common.Constants.SPLIT;
 
 /**
  * TODO
@@ -19,38 +18,52 @@ import com.jaf.examples.httpserver.simple.SimpleHttpServer;
  * @date 2016年10月23日
  * @since 1.0
  */
-public abstract class Response {
+public final class Response {
 	
-	private final Request request;
-	
-	private byte[] responseBytes;
-	
-	public Response(Request request) {
-		this.request = request;
-		this.buildResponseBytes();
+//	private final OutputStream out;
+
+	private String uri;
+	private Map<String, Object> params = new HashMap<>();
+
+	public Response(String uri, Map<String, Object> params) {
+		this.uri = uri;
+		this.params = params;
 	}
-	
-	private void buildResponseBytes() {
+
+//	public Response(OutputStream out) {
+//		this.out = out;
+//	}
+
+	public void write(OutputStream out) {
 		try {
-			String header = "";
-			byte[] data = new byte[0];
-			String requestPage = request.getResourceUri();
-			if(requestPage.endsWith(".png")) {
-				data = getResourceAsBytes(requestPage);
-				header = buildResponseHeader("image/jpeg", data.length);
-			} else {
-				String body = getResourceAsString(requestPage);
-				data = body.getBytes();
-				header = buildResponseHeader("text/html; charset=utf-8", data.length);
-			}
-			
-			byte[] headerBytes = header.getBytes();
-			this.responseBytes = new byte[headerBytes.length + data.length];
-			System.arraycopy(headerBytes, 0, responseBytes, 0, headerBytes.length);
-			System.arraycopy(data, 0, responseBytes, headerBytes.length, data.length);
+			byte[] responseBytes = buildResponseBytes();
+			out.write(responseBytes);
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private byte[] buildResponseBytes() throws IOException {
+		if(StringUtils.isEmpty(uri))
+			throw new IllegalArgumentException("找不到对应的 uri 路径");
+
+		String header;
+		byte[] data;
+		if(uri.endsWith(".png")) {
+			data = getResourceAsBytes(uri);
+			header = buildResponseHeader("image/jpeg", data.length);
+		} else {
+			String body = getResourceAsString(uri);
+			data = body.getBytes();
+			header = buildResponseHeader("text/html; charset=utf-8", data.length);
+		}
+
+		byte[] headerBytes = header.getBytes();
+		byte[] responseBytes = new byte[headerBytes.length + data.length];
+		System.arraycopy(headerBytes, 0, responseBytes, 0, headerBytes.length);
+		System.arraycopy(data, 0, responseBytes, headerBytes.length, data.length);
+		return responseBytes;
 	}
 	
 	protected String buildResponseHeader(String contentType, int contentLength) {
@@ -90,10 +103,12 @@ public abstract class Response {
 			return bs;
 		}
 	}
-	
-	
-	public byte[] getResponseBytes() {
-		return this.responseBytes;
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
-	
+
+	public void setParams(Map<String, Object> params) {
+		this.params = params;
+	}
 }

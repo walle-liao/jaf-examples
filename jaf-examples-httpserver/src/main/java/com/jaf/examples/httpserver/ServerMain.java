@@ -1,8 +1,9 @@
 package com.jaf.examples.httpserver;
 
-import java.io.IOException;
+import com.jaf.examples.httpserver.simple.SimpleHttpServer;
+import com.jaf.examples.httpserver.simple.ThreadPoolHttpServer;
 
-import com.jaf.examples.httpserver.simple.NioHttpServer;
+import java.io.IOException;
 
 /**
  * TODO
@@ -14,7 +15,7 @@ import com.jaf.examples.httpserver.simple.NioHttpServer;
 public class ServerMain {
 	
 	public static void main(String[] args) throws IOException {
-		HttpServer server = new NioHttpServer();
+		HttpServer server = new ThreadPoolHttpServer();
 		server.start();
 	}
 	

@@ -1,20 +1,14 @@
 package com.jaf.examples.httpserver.simple;
 
-import static com.jaf.examples.httpserver.common.Constants.REQUEST_HEAD_FIRST_LINE_PATTERN;
-import static com.jaf.examples.httpserver.common.Constants.SERVER_PORT;
-import static com.jaf.examples.httpserver.common.Constants.SPLIT;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.jaf.examples.httpserver.Request;
-import com.jaf.examples.httpserver.Response;
+import static com.jaf.examples.httpserver.common.Constants.SERVER_PORT;
 
 /**
  * 基于线程池的实现
@@ -35,23 +29,9 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 			while(true) {
 				Socket socket = serverSocket.accept();
 				System.out.println("******* open  " + socket.toString() + " connected. *******");
-				
-				try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(socket.getInputStream()))) {
-					String lineInput;
-					StringBuilder requestStr = null;
-					while((lineInput = reader.readLine()) != null) {
-						System.out.println(lineInput);
-						if(lineInput.matches(REQUEST_HEAD_FIRST_LINE_PATTERN)) {
-							requestStr = new StringBuilder();
-						}
-						requestStr.append(lineInput).append(SPLIT);
-						
-						if(lineInput.isEmpty()) {
-							ServiceTask task = new ServiceTask(requestStr.toString(), socket.getOutputStream());
-							executorService.execute(task);
-						}
-					}
-				}
+
+				ServiceTask task = new ServiceTask(socket.getInputStream(), socket.getOutputStream());
+				executorService.execute(task);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,27 +44,24 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 		}
 	}
 	
+
 	private class ServiceTask implements Runnable {
-		
-		private final String requestStr;
-		private final OutputStream writer;
-		
-		ServiceTask(String requestStr, OutputStream writer) {
-			this.requestStr = requestStr;
-			this.writer = writer;
+
+		private final InputStream in;
+		private final OutputStream out;
+
+		ServiceTask(InputStream in, OutputStream out) {
+			this.in = in;
+			this.out = out;
 		}
 
 		@Override
 		public void run() {
-			try {
-				Request request = new SimpleRequest(requestStr);
-				Response response = doService(request);
-				doWrite(writer, response.getResponseBytes());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Request request = new Request(in);
+//			Response response = new Response(out);
+//			handlerRequest(request, response);
+//			response.write();
 		}
-		
 	}
 	
 }

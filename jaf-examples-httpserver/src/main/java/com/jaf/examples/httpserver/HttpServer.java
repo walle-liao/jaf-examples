@@ -1,6 +1,10 @@
 package com.jaf.examples.httpserver;
 
+import com.jaf.examples.httpserver.simple.Request;
+import com.jaf.examples.httpserver.simple.Response;
+
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * TODO
@@ -13,6 +17,11 @@ public abstract class HttpServer {
 	
 	public abstract void start() throws IOException;
 	
-	protected abstract Response doService(Request request);
+	protected Response handlerRequest(Request request) {
+		request.decode();
+//		response.setUri(request.getUri());
+//		response.setParams(request.getParams());
+		return new Response("", new HashMap<String, Object>());
+	}
 	
 }

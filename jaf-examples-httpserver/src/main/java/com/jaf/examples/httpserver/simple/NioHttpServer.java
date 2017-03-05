@@ -11,7 +11,6 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.jaf.examples.httpserver.Response;
 import com.jaf.examples.httpserver.common.Constants;
 
 /**
@@ -67,9 +66,10 @@ public class NioHttpServer extends SimpleHttpServer {
 				readBuffer.get(bytes);
 				String requestStr = new String(bytes, Charset.forName("UTF-8"));
 				System.out.println(requestStr);
-				
-				Response response = this.doService(new SimpleRequest(requestStr));
-				this.doWrite(sc, response.getResponseBytes());
+
+
+//				Response response = this.doService(new SimpleRequest(requestStr));
+//				this.doWrite(sc, response.getResponseBytes());
 			} else if(readBytes < 0) {
 				key.cancel();
 				sc.close();

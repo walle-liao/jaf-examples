@@ -14,7 +14,7 @@ public final class Constants {
 	
 	public static final String BROKER_LIST = "192.168.1.186:9092,192.168.1.187:9092,192.168.1.188:9092";
 	
-	public static final String TOPIC_NAME = "test2";
+	public static final String TOPIC_NAME = "test5";
 	
 	private Constants() { }
 

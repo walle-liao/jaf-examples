@@ -14,6 +14,6 @@ public class Constants {
 	
 	public static final String SPLIT = "\r\n";
 	
-	public static final String REQUEST_HEAD_FIRST_LINE_PATTERN = "^(GET|POST|PUT|DELETE) \\S* HTTP/1.1";
+//	public static final String REQUEST_HEAD_FIRST_LINE_PATTERN = "^(GET|POST|PUT|DELETE) \\S* HTTP/1.1";
 	
 }
