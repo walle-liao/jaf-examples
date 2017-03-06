@@ -1,6 +1,6 @@
 package com.jaf.examples.httpserver;
 
-import com.jaf.examples.httpserver.simple.SimpleHttpServer;
+import com.jaf.examples.httpserver.server.SimpleHttpServer;
 import com.jaf.examples.httpserver.simple.ThreadPoolHttpServer;
 
 import java.io.IOException;

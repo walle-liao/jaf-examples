@@ -1,5 +1,7 @@
 package com.jaf.examples.httpserver.simple;
 
+import com.jaf.examples.httpserver.Response;
+import com.jaf.examples.httpserver.server.SimpleHttpServer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -18,35 +20,20 @@ import static com.jaf.examples.httpserver.common.Constants.SPLIT;
  * @date 2016年10月23日
  * @since 1.0
  */
-public final class Response {
+public class SimpleResponse implements Response {
 	
-//	private final OutputStream out;
-
 	private String uri;
 	private Map<String, Object> params = new HashMap<>();
 
-	public Response(String uri, Map<String, Object> params) {
+	public SimpleResponse(String uri, Map<String, Object> params) {
 		this.uri = uri;
 		this.params = params;
 	}
 
-//	public Response(OutputStream out) {
-//		this.out = out;
-//	}
-
-	public void write(OutputStream out) {
-		try {
-			byte[] responseBytes = buildResponseBytes();
-			out.write(responseBytes);
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private byte[] buildResponseBytes() throws IOException {
+	@Override
+	public byte[] toBytes() throws IOException {
 		if(StringUtils.isEmpty(uri))
-			throw new IllegalArgumentException("找不到对应的 uri 路径");
+			throw new IOException("找不到对应的 uri 路径");
 
 		String header;
 		byte[] data;
@@ -104,11 +91,4 @@ public final class Response {
 		}
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
-
-	public void setParams(Map<String, Object> params) {
-		this.params = params;
-	}
 }

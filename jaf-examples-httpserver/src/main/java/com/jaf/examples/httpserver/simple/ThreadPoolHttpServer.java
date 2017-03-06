@@ -1,14 +1,18 @@
 package com.jaf.examples.httpserver.simple;
 
+import com.jaf.examples.httpserver.Response;
+import com.jaf.examples.httpserver.server.SimpleHttpServer;
+
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.jaf.examples.httpserver.common.Constants.SERVER_PORT;
+import static com.jaf.examples.httpserver.common.Constants.*;
 
 /**
  * 基于线程池的实现
@@ -22,7 +26,7 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 	@Override
 	public void start() throws IOException {
 		ExecutorService executorService = Executors.newFixedThreadPool(10);
-		
+
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(SERVER_PORT);
@@ -30,8 +34,24 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 				Socket socket = serverSocket.accept();
 				System.out.println("******* open  " + socket.toString() + " connected. *******");
 
-				ServiceTask task = new ServiceTask(socket.getInputStream(), socket.getOutputStream());
-				executorService.execute(task);
+				System.out.println("111111111111111");
+
+				try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(socket.getInputStream()))) {
+					String lineInput;
+					StringBuilder requestStr = null;
+					while((lineInput = reader.readLine()) != null) {
+						System.out.println(lineInput);
+						if(lineInput.matches(REQUEST_HEAD_FIRST_LINE_PATTERN)) {
+							requestStr = new StringBuilder();
+						}
+						requestStr.append(lineInput).append(SPLIT);
+
+						if(lineInput.isEmpty()) {
+							ServiceTask task = new ServiceTask(requestStr.toString(), socket.getOutputStream());
+							executorService.execute(task);
+						}
+					}
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,25 +63,27 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 			}
 		}
 	}
-	
 
 	private class ServiceTask implements Runnable {
 
-		private final InputStream in;
-		private final OutputStream out;
+		private final String requestStr;
+		private final OutputStream writer;
 
-		ServiceTask(InputStream in, OutputStream out) {
-			this.in = in;
-			this.out = out;
+		ServiceTask(String requestStr, OutputStream writer) {
+			this.requestStr = requestStr;
+			this.writer = writer;
 		}
 
 		@Override
 		public void run() {
-			Request request = new Request(in);
-//			Response response = new Response(out);
-//			handlerRequest(request, response);
-//			response.write();
+			try {
+				Response response = handlerRequest(new SimpleRequest(requestStr));
+				doWrite(writer, response.toBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 	
 }

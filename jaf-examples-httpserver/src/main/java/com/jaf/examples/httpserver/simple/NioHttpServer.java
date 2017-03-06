@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.jaf.examples.httpserver.common.Constants;
+import com.jaf.examples.httpserver.server.SimpleHttpServer;
 
 /**
  * 基于NIO的实现
@@ -68,7 +69,7 @@ public class NioHttpServer extends SimpleHttpServer {
 				System.out.println(requestStr);
 
 
-//				Response response = this.doService(new SimpleRequest(requestStr));
+//				SimpleResponse response = this.doService(new SimpleRequest(requestStr));
 //				this.doWrite(sc, response.getResponseBytes());
 			} else if(readBytes < 0) {
 				key.cancel();
