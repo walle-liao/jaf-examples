@@ -16,7 +16,6 @@ public abstract class HttpServer {
 	public abstract void start() throws IOException;
 
 	protected Response handlerRequest(Request request) {
-		request.decode();
 		return new SimpleResponse(request.getUri(), request.getRequestParams());
 	}
 	

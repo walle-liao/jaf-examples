@@ -31,9 +31,9 @@ public class SimpleRequest implements Request {
 
     public SimpleRequest(String requestSourceStr) {
         this.requestSourceStr = requestSourceStr;
+        this.decode();
     }
 
-    @Override
     public void decode() {
         try (LineNumberReader reader = new LineNumberReader(new StringReader(requestSourceStr))) {
             String lineInput;

@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public interface Request {
 
-    void decode();
+//    void decode();
 
     MethodType getMethodType();
 

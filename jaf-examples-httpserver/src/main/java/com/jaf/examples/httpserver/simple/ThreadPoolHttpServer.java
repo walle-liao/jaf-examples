@@ -32,10 +32,6 @@ public class ThreadPoolHttpServer extends SimpleHttpServer {
 			serverSocket = new ServerSocket(SERVER_PORT);
 			while(true) {
 				Socket socket = serverSocket.accept();
-				System.out.println("******* open  " + socket.toString() + " connected. *******");
-
-				System.out.println("111111111111111");
-
 				try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(socket.getInputStream()))) {
 					String lineInput;
 					StringBuilder requestStr = null;
