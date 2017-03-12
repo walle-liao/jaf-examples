@@ -1,4 +1,4 @@
-package com.jaf.examples.bio.server;
+package com.jaf.examples.timerserver.bio.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

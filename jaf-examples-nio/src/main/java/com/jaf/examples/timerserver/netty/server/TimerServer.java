@@ -1,7 +1,7 @@
-package com.jaf.examples.netty.server;
+package com.jaf.examples.timerserver.netty.server;
 
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

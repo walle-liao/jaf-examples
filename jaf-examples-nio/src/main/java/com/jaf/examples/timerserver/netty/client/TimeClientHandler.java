@@ -1,4 +1,4 @@
-package com.jaf.examples.netty.client;
+package com.jaf.examples.timerserver.netty.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 /**
  * TODO

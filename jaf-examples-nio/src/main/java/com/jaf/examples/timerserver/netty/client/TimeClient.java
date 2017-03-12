@@ -1,8 +1,8 @@
-package com.jaf.examples.netty.client;
+package com.jaf.examples.timerserver.netty.client;
 
 import java.net.InetSocketAddress;
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

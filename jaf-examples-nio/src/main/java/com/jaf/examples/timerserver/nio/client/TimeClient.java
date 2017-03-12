@@ -1,4 +1,4 @@
-package com.jaf.examples.nio.client;
+package com.jaf.examples.timerserver.nio.client;
 
 
 /**

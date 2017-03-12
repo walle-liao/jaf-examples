@@ -1,4 +1,4 @@
-package com.jaf.examples;
+package com.jaf.examples.timerserver;
 
 import io.netty.util.CharsetUtil;
 

@@ -1,4 +1,4 @@
-package com.jaf.examples.bio.client;
+package com.jaf.examples.timerserver.bio.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import org.apache.commons.io.IOUtils;
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 /**
  * TODO

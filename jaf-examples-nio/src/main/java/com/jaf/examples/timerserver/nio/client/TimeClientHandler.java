@@ -1,4 +1,4 @@
-package com.jaf.examples.nio.client;
+package com.jaf.examples.timerserver.nio.client;
 
 import io.netty.util.CharsetUtil;
 
@@ -11,7 +11,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 /**
  * TODO

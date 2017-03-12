@@ -1,10 +1,10 @@
-package com.jaf.examples.bio.server;
+package com.jaf.examples.timerserver.bio.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.jaf.examples.Config;
+import com.jaf.examples.timerserver.Config;
 
 /**
  * TODO
