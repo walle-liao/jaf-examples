@@ -35,41 +35,27 @@ public class NioTelnetServer {
 
         while (true) {
             int selectNum = selector.select();
-            System.out.println("selectNum : " + selectNum);
+            if(selectNum == 0)
+                continue;
 
             Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
             while(keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();
                 if(key.isAcceptable()) {
-                    executorService.execute(new AcceptEventHandler(selector, key));
+                    System.out.println(key);
+
+                    ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
+                    SocketChannel socketChannel = serverChannel.accept();
+                    socketChannel.configureBlocking(false);
+                    socketChannel.register(selector, SelectionKey.OP_READ);
+                    socketChannel.write(ByteBuffer.wrap("welcome telnet server ... \r\n".getBytes(Charset.forName("UTF-8"))));
                 } else if(key.isReadable()) {
+                    System.out.println(key);
                     executorService.execute(new ReadEventHandler(key));
+//                    key.cancel();
+                    key.interestOps(key.interestOps()&(~SelectionKey.OP_READ));
                 }
                 keyIterator.remove();
-            }
-        }
-    }
-
-    private static class AcceptEventHandler implements Runnable {
-
-        private final Selector selector;
-        private final SelectionKey selectionKey;
-
-        private AcceptEventHandler(Selector selector, SelectionKey selectionKey) {
-            this.selector = selector;
-            this.selectionKey = selectionKey;
-        }
-
-        @Override
-        public void run() {
-            try {
-                ServerSocketChannel serverChannel = (ServerSocketChannel) selectionKey.channel();
-                SocketChannel socketChannel = serverChannel.accept();
-                socketChannel.configureBlocking(false);
-                socketChannel.register(selector, SelectionKey.OP_READ);
-                socketChannel.write(ByteBuffer.wrap("welcome telnet server ... \r\n".getBytes(Charset.forName("UTF-8"))));
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
     }
@@ -88,10 +74,18 @@ public class NioTelnetServer {
                 SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
                 ByteBuffer buffer = ByteBuffer.allocate(100);
                 buffer.put("\r\nFollow you: ".getBytes(Charset.forName("UTF-8")));
-                socketChannel.read(buffer);
+                int size = socketChannel.read(buffer);
+                System.out.println("size:");
+                System.out.println(size);
                 buffer.put("\r\n".getBytes(Charset.forName("UTF-8")));
                 buffer.flip();
                 socketChannel.write(buffer);
+                if(size == -1) {
+                    socketChannel.close();
+                } else {
+                    selectionKey.interestOps(selectionKey.interestOps() | SelectionKey.OP_READ);
+                    selectionKey.selector().wakeup();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
