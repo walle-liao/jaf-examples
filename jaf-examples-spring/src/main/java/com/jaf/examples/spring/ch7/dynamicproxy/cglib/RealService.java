@@ -5,8 +5,12 @@ package com.jaf.examples.spring.ch7.dynamicproxy.cglib;
  */
 public class RealService {
 
-    public void sayHello() {
-        System.out.println("hello world");
+    public void saveUser() {
+        System.out.println("save user");
+    }
+
+    public void findUser() {
+        System.out.println("find user");
     }
 
 }
