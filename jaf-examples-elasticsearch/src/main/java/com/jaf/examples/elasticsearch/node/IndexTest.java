@@ -17,15 +17,11 @@ import com.google.gson.Gson;
 public class IndexTest {
 
 	public static void main(String[] args) throws UnknownHostException {
-		// TODO Auto-generated method stub
-//		Client client = TransportClient.builder().build()
-//		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.1.110"), 9300));
-		
 		Client client = TransportClient.builder().build()
-		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("169.254.135.217"), 9300));
-		//indexGet(client);
-		//indexCreate(client);
-		indexDelete(client,"AVPmcmhdem-ZMWF0VMHm");
+		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(Config.ES_IP), 9300));
+//		indexGet(client);
+		indexCreate(client);
+//		indexDelete(client,"AVPmcmhdem-ZMWF0VMHm");
 
 	}
 	

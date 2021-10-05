@@ -32,6 +32,7 @@
         <module>../jaf-examples-kafka</module>
         <module>../jaf-examples-httpserver</module>
         <module>../jaf-examples-spring</module>
+        <module>../jaf-examples-spider</module>
     </modules>
 
     <dependencyManagement>

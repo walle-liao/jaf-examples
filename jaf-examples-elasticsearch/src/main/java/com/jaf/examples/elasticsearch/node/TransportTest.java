@@ -15,7 +15,7 @@ public class TransportTest {
 //		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.1.110"), 9300));
 		
 		Client client = TransportClient.builder().build()
-		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("169.254.135.217"), 9300));
+		        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("47.106.90.219"), 9300));
 
 		// on shutdown
 		client.close();
